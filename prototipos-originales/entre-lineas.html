@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#143e38">
+  <meta name="description" content="OVA autocontenido de lectura crítica para grado noveno: ideas principales, práctica guiada y evaluación formativa sin conexión a internet.">
+  <title>Entre líneas · Laboratorio de ideas principales · Grado 9.º</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --forest: #143e38;
+      --forest-2: #0c554a;
+      --mint: #ddf4e8;
+      --pale: #eef7f2;
+      --ink: #14272c;
+      --text: #32464a;
+      --subtle: #617478;
+      --paper: #fffefd;
+      --canvas: #f4f5ef;
+      --line: #d7e1dc;
+      --accent: #bce76d;
+      --orange: #f5b95d;
+      --blue: #e8f2ff;
+      --blue-ink: #23508c;
+      --red: #a63535;
+      --red-bg: #fff0ed;
+      --green: #146b45;
+      --shadow: 0 14px 42px rgba(20,62,56,.075);
+      --radius: 22px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin:0; font: 16px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:var(--canvas); }
+    button { font:inherit; cursor:pointer; }
+    button:disabled { cursor: not-allowed; opacity:.65; }
+    button, a, summary, [tabindex] { -webkit-tap-highlight-color:transparent; }
+    :focus-visible { outline:3px solid #ba711a; outline-offset:3px; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    .wrap { width:min(1160px, calc(100% - 36px)); margin-inline:auto; }
+    .eyebrow { letter-spacing:.095em; font-size:.74rem; font-weight:850; text-transform:uppercase; }
+    .topbar { background:var(--forest); color:white; border-bottom:1px solid rgba(255,255,255,.15); }
+    .topbar-inner { display:flex; justify-content:space-between; align-items:center; min-height:62px; gap:16px; }
+    .brand { display:flex; align-items:center; gap:11px; font-weight:800; font-size:1rem; }
+    .brand-logo { display:grid; place-items:center; width:34px; height:34px; border-radius:10px; color:var(--forest); background:var(--accent); font-weight:900; font-size:1.24rem; }
+    .top-note { font-size:.81rem; color:#daece5; text-align:right; }
+    .hero { padding:64px 0 76px; background:radial-gradient(ellipse at 82% 18%, rgba(188,231,109,.23), transparent 44%), var(--forest); color:white; position:relative; overflow:hidden; }
+    .hero::after { content:""; position:absolute; width:300px; height:300px; border:1px solid rgba(255,255,255,.14); border-radius:50%; right:-88px; bottom:-185px; pointer-events:none; box-shadow:0 0 0 42px rgba(255,255,255,.025),0 0 0 92px rgba(255,255,255,.025); }
+    .hero-inner { display:grid; grid-template-columns: 1.15fr .7fr; align-items:center; gap:45px; }
+    .hero h1 { font-size:clamp(2.5rem, 6vw, 4.9rem); line-height:1.06; letter-spacing:-.056em; max-width:790px; margin:12px 0 22px; }
+    .hero h1 em { font-style:normal; color:var(--accent); }
+    .hero p { max-width:590px; color:#e4f1eb; font-size:1.07rem; margin:0 0 24px; }
+    .hero-tags { display:flex; flex-wrap:wrap; gap:8px; }
+    .hero-tags span { padding:6px 12px; color:#f2fff4; border:1px solid rgba(255,255,255,.25); border-radius:999px; background:rgba(255,255,255,.08); font-weight:670; font-size:.83rem; }
+    .hero-art { min-height:255px; position:relative; display:grid; place-items:center; }
+    .art-card { width: min(100%,300px); aspect-ratio:1.22; border-radius:24px; padding:22px; background:#fbfff6; color:var(--forest); box-shadow:0 24px 60px rgba(4,17,20,.2); transform:rotate(-5deg); }
+    .art-mini { display:flex; justify-content:space-between; align-items:center; color:#607b70; font-size:.72rem; font-weight:800; letter-spacing:.06em; }
+    .art-line { height:11px; background:#e4ede8; border-radius:20px; margin:16px 0; width:92%; }
+    .art-line.mid { width:80%; }
+    .art-line.short { width:62%; }
+    .art-line.active { background:var(--accent); width:89%; height:20px; border-radius:5px; }
+    .art-stamp { position:absolute; right:10px; bottom:0; padding:10px 18px; border-radius:15px; transform:rotate(7deg); background:#f5bd6c; color:#513307; font-weight:850; box-shadow:0 15px 25px rgba(0,0,0,.12); }
+    .main { margin-top:-26px; position:relative; z-index:2; padding-bottom:40px; }
+    .tab-shell { background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:8px; box-shadow:var(--shadow); }
+    .tablist { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:5px; }
+    .tab { display:flex; flex-direction:column; gap:3px; align-items:center; justify-content:center; padding:13px 8px; border:0; background:transparent; border-radius:15px; color:var(--text); font-weight:770; font-size:.84rem; line-height:1.2; }
+    .tab small { font-size:.7rem; font-weight:650; color:var(--subtle); }
+    .tab[aria-selected="true"] { background:var(--forest); color:white; }
+    .tab[aria-selected="true"] small { color:#cbe8d8; }
+    .tab:hover:not([aria-selected="true"]) { background:var(--pale); }
+    .journey { display:flex; align-items:center; gap:12px; padding:18px 4px 25px; color:var(--text); font-size:.8rem; }
+    .journey strong { white-space:nowrap; }
+    .track { background:#dce5e0; height:8px; border-radius:99px; flex:1; overflow:hidden; }
+    .fill { height:100%; background:var(--forest-2); width:20%; transition:width .25s; border-radius:99px; }
+    .panel { background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:clamp(24px, 4vw, 48px); box-shadow:var(--shadow); min-height:490px; }
+    [hidden] { display:none !important; }
+    .section-title { margin:0 0 8px; font-size:clamp(1.75rem,3vw,2.4rem); line-height:1.16; letter-spacing:-.045em; }
+    .section-lead { max-width:720px; color:var(--text); margin:0 0 28px; font-size:1.03rem; }
+    .section-tag { display:inline-block; color:var(--forest-2); font-size:.77rem; font-weight:850; text-transform:uppercase; letter-spacing:.095em; margin-bottom:10px; }
+    h3 { font-size:1.17rem; letter-spacing:-.02em; line-height:1.35; margin:0 0 12px; }
+    h4 { margin:0 0 9px; }
+    p { margin:0 0 14px; }
+    .grid2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+    .grid3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:17px; }
+    .card { background:#f9fbf7; border:1px solid var(--line); border-radius:18px; padding:24px; }
+    .card.white { background:white; }
+    .card.accent { background:var(--pale); border-color:#b8dace; }
+    .number { display:grid; place-items:center; width:38px; height:38px; background:var(--mint); color:var(--forest); border-radius:12px; font-weight:900; margin-bottom:18px; }
+    .label { display:inline-block; padding:4px 11px; background:#e0ede4; border-radius:20px; color:var(--forest); font-weight:780; font-size:.76rem; letter-spacing:.03em; }
+    .muted { color:var(--subtle); }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border-radius:11px; padding:12px 19px; background:var(--forest); color:white; font-weight:760; border:1px solid var(--forest); min-height:46px; text-align:center; }
+    .btn:hover:not(:disabled) { background:#235e52; }
+    .btn.secondary { background:white; color:var(--forest); border-color:#bad3c8; }
+    .btn.secondary:hover:not(:disabled) { background:var(--mint); }
+    .btn.gold { background:var(--accent); border-color:var(--accent); color:var(--forest); }
+    .btn.gold:hover:not(:disabled) { background:#d2f596; }
+    .actions { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-top:24px; }
+    .callout { border-radius:16px; padding:18px 22px; background:var(--pale); border-left:5px solid var(--forest-2); }
+    .callout p:last-child { margin-bottom:0; }
+    .callout strong { color:var(--forest); }
+    .challenge { padding:24px; border-radius:20px; border:1px solid #d6e3d9; margin-top:27px; background:#fff; }
+    .challenge blockquote { margin:15px 0; padding:18px 22px; border-left:4px solid #a5ca5a; background:#f5f8ed; font-size:1.05rem; }
+    .choice-list { display:grid; gap:10px; margin-top:13px; }
+    .choice { display:block; width:100%; text-align:left; padding:13px 17px; border:1.5px solid #cbd9d2; background:#fff; color:var(--ink); border-radius:12px; transition:background .16s,border-color .16s; }
+    .choice:hover:not(:disabled) { border-color:var(--forest-2); background:#f2f8f4; }
+    .choice.correct { border-color:#217f53; background:#e6f7ec; color:#0e4e2e; }
+    .choice.wrong { border-color:#c65c55; background:#fff1ee; color:#7d2727; }
+    .feedback { padding:16px 19px; background:#eff6fb; border:1px solid #bad2e7; border-radius:14px; margin-top:15px; color:#163c5a; }
+    .feedback.success { color:#135339; background:#e9f8ed; border-color:#afd8bd; }
+    .feedback.caution { color:#812e28; background:var(--red-bg); border-color:#e3b7b1; }
+    .feedback p { margin:4px 0 0; }
+    .rule-cards { margin-bottom:24px; }
+    .rule-cards .card p { color:var(--text); }
+    .mini-example { font-size:.88rem; padding:13px 15px; background:white; border-left:3px solid #6aab91; border-radius:9px; }
+    .demo { padding:23px; background:#f4f8f5; border:1px solid #d5e5db; border-radius:18px; margin-top:20px; }
+    .demo-text { border-radius:13px; background:white; padding:17px 19px; line-height:2; margin:16px 0; border:1px solid var(--line); }
+    .demo-text mark { padding:2px 4px; border-radius:4px; background:#dbf3c1; color:var(--forest); }
+    .demo-text .dim { color:#657c7a; }
+    .demo-reveal { background:#e9f6ef; color:#0b4b38; border-radius:12px; padding:14px 18px; margin-top:14px; }
+    .practice-body { background:#f8faf7; border:1px solid var(--line); border-radius:19px; padding:24px; }
+    .practice-meta { display:flex; gap:9px; flex-wrap:wrap; align-items:center; margin-bottom:15px; }
+    .practice-text { background:white; border:1px solid #dce8e0; border-radius:15px; padding:21px; font-size:1.01rem; line-height:2.3; margin:18px 0; }
+    .sentence { display:inline; background:transparent; color:inherit; border:0; border-radius:6px; padding:3px 4px; margin:0; text-align:left; line-height:inherit; transition:background .15s; }
+    .sentence:hover:not(:disabled) { background:#e4f3dc; box-shadow:inset 0 -2px #427b5e; }
+    .sentence:focus-visible { outline-offset:1px; }
+    .sentence.picked-wrong { background:#ffe2d8; box-shadow:inset 0 -2px #ba413b; }
+    .sentence.main-idea { background:#caeeac; color:#174426; box-shadow:inset 0 -2px #276a3c; font-weight:740; }
+    .sentence.secondary-idea { color:#596b68; background:#f0f3ef; }
+    .legend { display:flex; flex-wrap:wrap; gap:15px; font-size:.81rem; margin-top:15px; }
+    .legend span { display:flex; align-items:center; gap:7px; }
+    .swatch { width:15px; height:15px; border-radius:4px; background:#caeeac; border:1px solid #64965f; }
+    .swatch.secondary { background:#f0f3ef; border-color:#b2c3b8; }
+    .meta-row { display:flex; justify-content:space-between; gap:15px; flex-wrap:wrap; }
+    .quiz-stats { display:flex; flex-wrap:wrap; gap:10px; margin:18px 0; }
+    .stat { padding:9px 14px; border-radius:12px; background:var(--pale); color:var(--forest); font-size:.88rem; font-weight:800; }
+    .quiz-progress { margin:10px 0 21px; }
+    .quiz-progress .track { width:100%; height:10px; }
+    .question-box { padding:25px; background:#f9fbf9; border:1px solid var(--line); border-radius:19px; }
+    .question-box h3 { font-size:1.25rem; margin:10px 0 16px; }
+    .option-letter { display:inline-grid; place-items:center; width:26px; height:26px; flex:0 0 26px; background:#eaf1ed; color:var(--forest); border-radius:7px; font-size:.75rem; font-weight:900; margin-right:10px; }
+    .choice.option { display:flex; align-items:center; }
+    .choice.option.correct .option-letter { background:#c5e7d0; }
+    .choice.option.wrong .option-letter { background:#f4d0ca; }
+    .results-head { text-align:center; padding:23px 10px 5px; }
+    .score-ring { display:grid; place-items:center; width:136px; height:136px; border-radius:50%; margin:17px auto; border:12px solid var(--mint); color:var(--forest); background:#fff; font-size:2.1rem; font-weight:900; }
+    .results-list { margin-top:22px; display:grid; gap:9px; }
+    .result-row { padding:12px 15px; border-radius:11px; background:#f3f7f4; border:1px solid #d8e6dd; font-size:.92rem; }
+    .result-row.bad { background:#fff7f4; border-color:#edc9c0; }
+    .result-row strong { display:inline-block; margin-right:8px; }
+    .glossary { display:grid; gap:12px; }
+    details { background:#f8faf7; border:1px solid var(--line); border-radius:14px; padding:4px 18px; }
+    summary { padding:14px 0; color:var(--forest); font-weight:790; cursor:pointer; }
+    details p { padding:0 0 15px; color:var(--text); margin:0; }
+    .footer { padding:18px 0 45px; font-size:.8rem; color:#526962; }
+    .footer-inner { display:flex; justify-content:space-between; gap:25px; flex-wrap:wrap; border-top:1px solid #d0dfd6; padding-top:20px; }
+    .sources { font-size:.76rem; color:var(--subtle); margin-top:28px; }
+    .sources strong { color:var(--text); }
+    .sources p { margin:0 0 7px; }
+    @media(max-width:850px) { .hero-inner { grid-template-columns:1fr; } .hero-art { display:none; } .grid3 { grid-template-columns:1fr; } .grid2 { grid-template-columns:1fr; } }
+    @media(max-width:650px) { .wrap { width:min(100% - 22px,1160px); } .hero { padding:42px 0 57px; } .hero h1 { font-size:clamp(2.3rem,11vw,3.4rem); } .panel { padding:20px 17px; } .tab-shell { overflow-x:auto; } .tablist { min-width:640px; } .tab { font-size:.79rem; } .journey strong { display:none; } .practice-body,.challenge,.question-box { padding:16px; } .practice-text { padding:15px; } .top-note { font-size:.69rem; } }
+    @media(prefers-reduced-motion:reduce) { *, *::before, *::after { scroll-behavior:auto !important; transition:none !important; animation:none !important; } }
+    @media print { .topbar,.hero-art,.tab-shell,.journey,.actions,.btn,.footer,.practice-text,.choice-list { display:none !important; } .hero { padding:15px 0; background:#fff; color:black; } .hero h1,.hero h1 em { color:black; font-size:1.7rem; } .hero p,.hero-tags span { color:black; } .main { margin:0; } .panel { border:0; padding:10px; box-shadow:none; } #tab-intro,#tab-concepts,#tab-practice,#tab-glossary { display:none !important; } #tab-quiz { display:block !important; } .question-box { display:none !important; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand"><span class="brand-logo" aria-hidden="true">L</span><span>Laboratorio lector <span aria-hidden="true">/</span> 9.º</span></div>
+      <div class="top-note">San José del Pantano · Lengua Castellana</div>
+    </div>
+  </header>
+  <section class="hero" aria-labelledby="page-title">
+    <div class="wrap hero-inner">
+      <div>
+        <div class="eyebrow" style="color:#c0ed8d">Aprender leyendo · Prototipo interactivo</div>
+        <h1 id="page-title">Entre <em>líneas.</em><br>Encuentra la idea central.</h1>
+        <p>Un recorrido para distinguir lo esencial de los detalles, justificar decisiones con pistas del texto y leer con mayor criterio.</p>
+        <div class="hero-tags"><span>Grado noveno</span><span>3 textos originales</span><span>Evaluación formativa</span><span>100 % sin conexión</span></div>
+      </div>
+      <div class="hero-art" aria-hidden="true"><div class="art-card"><div class="art-mini"><span>LECTURA 01</span><span>✦</span></div><div class="art-line"></div><div class="art-line mid"></div><div class="art-line active"></div><div class="art-line short"></div><div class="art-line mid"></div><div class="art-line"></div></div><span class="art-stamp">¡Hallazgo central! ↗</span></div>
+    </div>
+  </section>
+  <main class="wrap main">
+    <div class="tab-shell"><nav class="tablist" role="tablist" aria-label="Módulos del laboratorio de lectura">
+      <button class="tab" id="btn-intro" role="tab" type="button" aria-controls="tab-intro" aria-selected="true" tabindex="0" data-tab="intro"><span>01 · Inicio</span><small>Activa saberes</small></button>
+      <button class="tab" id="btn-concepts" role="tab" type="button" aria-controls="tab-concepts" aria-selected="false" tabindex="-1" data-tab="concepts"><span>02 · Descubre</span><small>Ideas y reglas</small></button>
+      <button class="tab" id="btn-practice" role="tab" type="button" aria-controls="tab-practice" aria-selected="false" tabindex="-1" data-tab="practice"><span>03 · Practica</span><small>Selecciona pistas</small></button>
+      <button class="tab" id="btn-quiz" role="tab" type="button" aria-controls="tab-quiz" aria-selected="false" tabindex="-1" data-tab="quiz"><span>04 · Desafío</span><small>Evalúa tu lectura</small></button>
+      <button class="tab" id="btn-glossary" role="tab" type="button" aria-controls="tab-glossary" aria-selected="false" tabindex="-1" data-tab="glossary"><span>05 · Glosario</span><small>Consulta términos</small></button>
+    </nav></div>
+    <div class="journey"><strong>Exploración de módulos</strong><div class="track" role="progressbar" id="journey-bar" aria-label="Módulos visitados" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"><div id="journey-fill" class="fill"></div></div><span id="journey-label">1 de 5 visitados</span></div>
+
+    <section id="tab-intro" class="panel" role="tabpanel" aria-labelledby="btn-intro" tabindex="-1">
+      <div class="section-tag">Módulo 01 · Activación</div>
+      <h2 class="section-title">¿Qué es lo que de verdad importa?</h2>
+      <p class="section-lead">Cada texto ofrece muchas pistas, pero unas explican el sentido global y otras aportan ejemplos o precisiones. Aquí aprenderás a distinguirlas.</p>
+      <div class="grid2">
+        <div class="card accent"><div class="number" aria-hidden="true">◎</div><h3>Propósito de aprendizaje</h3><p>Identificar la idea principal de textos narrativos y expositivos; diferenciarla de los detalles y justificar la elección con información presente en la lectura.</p></div>
+        <div class="card"><div class="number" aria-hidden="true">↗</div><h3>Tu ruta</h3><p>Recuerda lo que sabes, observa una demostración, practica con tres lecturas y resuelve una autoevaluación con explicaciones para cada respuesta.</p><span class="label">Aprende a tu ritmo</span></div>
+      </div>
+      <div class="challenge" aria-labelledby="intro-challenge-title">
+        <div class="label">Reto de entrada</div>
+        <h3 id="intro-challenge-title" style="margin-top:12px">Lee y escoge la idea que abarca todo el fragmento</h3>
+        <blockquote>En una escuela rural, varios estudiantes llevaron relatos familiares al aula. Primero los leyeron en pequeños grupos; después compararon las versiones y conversaron sobre los recuerdos compartidos. Al finalizar, reunieron las historias en un cuaderno para conservarlas.</blockquote>
+        <p class="muted">¿Qué enunciado expresa mejor la idea central?</p>
+        <div class="choice-list" id="intro-choices"><button class="choice" data-intro="0" type="button">Los estudiantes leyeron los relatos en pequeños grupos.</button><button class="choice" data-intro="1" type="button">Los estudiantes recopilaron historias familiares para conservar recuerdos compartidos.</button><button class="choice" data-intro="2" type="button">Los estudiantes reunieron los textos en un cuaderno.</button></div>
+        <div id="intro-feedback" aria-live="polite" class="feedback" hidden></div>
+      </div>
+      <div class="actions"><button class="btn" type="button" data-go="concepts">Descubrir cómo se hace <span aria-hidden="true">→</span></button></div>
+    </section>
+
+    <section id="tab-concepts" class="panel" role="tabpanel" aria-labelledby="btn-concepts" tabindex="-1" hidden>
+      <div class="section-tag">Módulo 02 · Demostración</div>
+      <h2 class="section-title">Del párrafo a su significado global</h2>
+      <p class="section-lead">La macroestructura expresa de qué trata un texto en su conjunto. Para reconocerla, conviene preguntarse qué mensaje reúne las demás afirmaciones.</p>
+      <div class="grid2" style="margin-bottom:23px">
+        <div class="card accent"><h3>Idea principal</h3><p>Expresa el sentido central del fragmento y relaciona su información más relevante. Puede aparecer de forma explícita o construirse a partir de varias pistas.</p></div>
+        <div class="card"><h3>Información secundaria</h3><p>Desarrolla o precisa la idea central mediante ejemplos, descripciones o acontecimientos particulares. Ayuda a comprender, aunque por sí sola no resume el texto completo.</p></div>
+      </div>
+      <h3>Las tres macrorreglas de van Dijk</h3>
+      <div class="grid3 rule-cards">
+        <article class="card white"><div class="number">01</div><h3>Supresión</h3><p>Al elaborar la idea global, se omite información cuya ausencia no cambia el sentido central.</p><div class="mini-example"><strong>Detalle prescindible:</strong> «La reunión comenzó a las ocho» si el texto explica cómo una comunidad protege un río.</div></article>
+        <article class="card white"><div class="number">02</div><h3>Generalización</h3><p>Varias nociones específicas se reúnen bajo una expresión más amplia que conserva su relación.</p><div class="mini-example"><strong>Ejemplo:</strong> «cangrejos, peces y aves» puede resumirse como «animales del manglar».</div></article>
+        <article class="card white"><div class="number">03</div><h3>Construcción</h3><p>Una secuencia de acciones se interpreta como un acontecimiento global expresado en una nueva oración.</p><div class="mini-example"><strong>Ejemplo:</strong> recoger residuos, clasificarlos y disponerlos correctamente: «realizar una jornada de limpieza».</div></article>
+      </div>
+      <div class="demo">
+        <h3>Observa el procedimiento</h3>
+        <p>Elige qué quieres ver resaltado y compara el contenido particular con una idea que integra la lectura.</p>
+        <div id="demo-text" class="demo-text">Un grupo de jóvenes recogió plásticos en la orilla. Los clasificó en bolsas reutilizables y trasladó los residuos aprovechables a un punto de recolección. Antes de regresar, puso avisos para invitar a otras personas a mantener limpio el lugar.</div>
+        <div class="actions"><button id="demo-details" class="btn secondary" type="button">Resaltar acciones particulares</button><button id="demo-summary" class="btn" type="button">Construir idea global</button><button id="demo-reset" class="btn secondary" type="button">Restablecer</button></div>
+        <div class="demo-reveal" id="demo-explanation" aria-live="polite" hidden></div>
+      </div>
+      <div class="actions"><button class="btn secondary" type="button" data-go="intro">← Volver al inicio</button><button class="btn" type="button" data-go="practice">Ponerlo en práctica →</button></div>
+    </section>
+
+    <section id="tab-practice" class="panel" role="tabpanel" aria-labelledby="btn-practice" tabindex="-1" hidden>
+      <div class="section-tag">Módulo 03 · Aplicación</div>
+      <h2 class="section-title">Tres lecturas, una idea central en cada una</h2>
+      <p class="section-lead">Haz clic sobre la oración que mejor reúne el sentido del texto. Si eliges un detalle, recibirás una pista para intentarlo de nuevo.</p>
+      <div class="practice-body">
+        <div class="meta-row"><div class="practice-meta"><span id="practice-type" class="label">Lectura narrativa</span><span class="muted" id="practice-counter">Texto 1 de 3</span></div><span id="practice-completed" class="label">0 de 3 resueltos</span></div>
+        <h3 id="practice-title">La historia que volvió al aula</h3>
+        <p id="practice-instruction" class="muted">Selecciona una oración dentro de la lectura.</p>
+        <div id="practice-text" class="practice-text" aria-label="Texto para seleccionar la idea central"></div>
+        <div id="practice-feedback" class="feedback" aria-live="polite" hidden></div>
+        <div class="legend" id="practice-legend" hidden><span><i class="swatch" aria-hidden="true"></i>Idea central</span><span><i class="swatch secondary" aria-hidden="true"></i>Información de apoyo</span></div>
+        <div class="actions"><button class="btn secondary" type="button" id="practice-prev">← Texto anterior</button><button class="btn" type="button" id="practice-next">Texto siguiente →</button><button class="btn gold" type="button" id="practice-quiz" hidden>Ir al desafío →</button></div>
+      </div>
+      <div class="callout" style="margin-top:21px"><strong>Una recomendación:</strong><p>La oración más llamativa no siempre es la principal. Comprueba si la elegida explica el resto de la lectura y conserva su sentido global.</p></div>
+    </section>
+
+    <section id="tab-quiz" class="panel" role="tabpanel" aria-labelledby="btn-quiz" tabindex="-1" hidden>
+      <div class="section-tag">Módulo 04 · Integración y autoevaluación</div>
+      <h2 class="section-title">Desafío: detectives de ideas</h2>
+      <p class="section-lead">Resuelve nueve preguntas y recibe una explicación basada en los textos. Cada acierto suma diez puntos; las vidas indican cuántos errores has cometido antes de llegar a cero.</p>
+      <div id="quiz-play">
+        <div class="quiz-stats"><div class="stat" id="quiz-score">Puntos: 0 / 90</div><div class="stat" id="quiz-lives">Vidas: ♥ ♥ ♥</div><div class="stat" id="quiz-stars">Estrellas: ☆ 0</div></div>
+        <div class="quiz-progress"><div class="meta-row"><strong id="quiz-counter">Pregunta 1 de 9</strong><span class="muted" id="quiz-percent">0 % completado</span></div><div class="track" role="progressbar" aria-label="Avance de la autoevaluación" id="quiz-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" id="quiz-fill" style="width:0"></div></div></div>
+        <div class="question-box"><span id="question-topic" class="label">Narración · Idea principal</span><h3 id="question-stem"></h3><div class="choice-list" id="quiz-options"></div><div id="quiz-feedback" class="feedback" role="status" aria-live="polite" hidden></div><div class="actions"><button class="btn" id="quiz-next" type="button" hidden>Continuar →</button></div></div>
+      </div>
+      <div id="quiz-results" hidden>
+        <div class="results-head"><div class="section-tag">Recorrido finalizado</div><h3 id="results-level" style="font-size:1.6rem">Nivel de logro</h3><div class="score-ring" id="results-score">0 %</div><p id="results-summary"></p><p id="results-advice" class="muted"></p></div>
+        <h3>Revisión de respuestas</h3><div id="results-list" class="results-list"></div><div class="actions"><button class="btn" type="button" id="quiz-retry">Intentarlo otra vez ↻</button><button class="btn secondary" type="button" id="quiz-export">Descargar resumen (.txt)</button><button class="btn secondary" type="button" id="quiz-print">Imprimir</button></div>
+      </div>
+      <div class="callout" style="margin-top:22px"><strong>Sobre la evaluación:</strong><p>Esta autoevaluación ofrece retroalimentación para aprender y corregir criterios de lectura; sus resultados no constituyen por sí solos una medición concluyente del desempeño académico.</p></div>
+    </section>
+
+    <section id="tab-glossary" class="panel" role="tabpanel" aria-labelledby="btn-glossary" tabindex="-1" hidden>
+      <div class="section-tag">Módulo 05 · Consulta</div>
+      <h2 class="section-title">Glosario para leer con criterio</h2>
+      <p class="section-lead">Abre cada término cuando necesites aclarar una operación de lectura. Puedes volver a cualquier módulo del recorrido.</p>
+      <div class="glossary">
+        <details><summary>Idea principal</summary><p>Proposición que reúne el sentido global de un texto o fragmento y orienta la interpretación de sus demás enunciados.</p></details>
+        <details><summary>Idea secundaria</summary><p>Información que desarrolla, explica o ejemplifica un aspecto de la idea principal sin sustituir el sentido total del texto.</p></details>
+        <details><summary>Macroestructura textual</summary><p>Organización semántica global mediante la cual una lectura puede comprenderse como un conjunto coherente con un tema central.</p></details>
+        <details><summary>Supresión</summary><p>Macrorregla mediante la cual se omiten detalles que no resultan necesarios para expresar el contenido central.</p></details>
+        <details><summary>Generalización</summary><p>Macrorregla mediante la cual varias ideas específicas se expresan a través de una noción más general que conserva su relación.</p></details>
+        <details><summary>Construcción</summary><p>Macrorregla mediante la cual varias acciones o proposiciones relacionadas se integran en un nuevo enunciado que expresa el acontecimiento global.</p></details>
+        <details><summary>Evidencia textual</summary><p>Fragmento preciso de una lectura que respalda una interpretación y hace posible explicar por qué una respuesta resulta pertinente.</p></details>
+        <details><summary>Inferencia</summary><p>Conclusión que el lector deriva de pistas del texto y de relaciones razonables entre ellas, sin presentarla como una afirmación literal de la lectura.</p></details>
+      </div>
+      <div class="actions"><button class="btn secondary" type="button" data-go="practice">Repasar lecturas</button><button class="btn" type="button" data-go="quiz">Volver a la autoevaluación →</button></div>
+    </section>
+
+    <div class="sources"><strong>Orientación pedagógica y fuentes:</strong><p>Merrill, M. D. (2002). First principles of instruction. <em>Educational Technology Research and Development, 50</em>, 43–59. https://doi.org/10.1007/BF02505024</p><p>Van Dijk, T. A. (1983). <em>La ciencia del texto</em>. Paidós. Las explicaciones de las macrorreglas se presentan en una versión didáctica para noveno grado.</p><p>Las tres lecturas, las preguntas y las respuestas de este prototipo son originales, elaboradas para practicar habilidades lectoras; no describen hechos específicos verificados sobre la institución o su comunidad.</p></div>
+  </main>
+  <footer class="footer"><div class="wrap footer-inner"><span>Institución Educativa San José del Pantano · Puerto Escondido, Córdoba</span><span>Archivo único HTML · Sin bibliotecas externas · Sin transmisión de respuestas</span></div></footer>
+  <script>
+  'use strict';
+  (() => {
+    const tabIds = ['intro','concepts','practice','quiz','glossary'];
+    const visited = new Set(['intro']);
+    const $ = id => document.getElementById(id);
+    const secureText = (node, value) => { node.textContent = value; };
+    function navigate(id) {
+      if (!tabIds.includes(id)) return;
+      for (const key of tabIds) {
+        const selected = key === id;
+        const btn = $('btn-' + key);
+        btn.setAttribute('aria-selected', String(selected));
+        btn.tabIndex = selected ? 0 : -1;
+        $('tab-' + key).hidden = !selected;
+      }
+      visited.add(id);
+      const ratio = Math.round(100 * visited.size / tabIds.length);
+      $('journey-fill').style.width = ratio + '%';
+      $('journey-bar').setAttribute('aria-valuenow', String(ratio));
+      secureText($('journey-label'), visited.size + ' de 5 visitados');
+      const panel = $('tab-' + id);
+      panel.focus({preventScroll:true});
+      $('btn-' + id).scrollIntoView({behavior: 'auto', inline:'nearest', block:'nearest'});
+    }
+    for (const btn of document.querySelectorAll('[data-tab]')) {
+      btn.addEventListener('click', () => navigate(btn.dataset.tab));
+      btn.addEventListener('keydown', ev => {
+        if (!['ArrowLeft','ArrowRight','Home','End'].includes(ev.key)) return;
+        ev.preventDefault();
+        const here = tabIds.indexOf(btn.dataset.tab);
+        const next = ev.key === 'Home' ? 0 : ev.key === 'End' ? 4 : (here + (ev.key === 'ArrowRight' ? 1 : -1) + 5) % 5;
+        navigate(tabIds[next]);
+        $('btn-' + tabIds[next]).focus({preventScroll:true});
+      });
+    }
+    for (const btn of document.querySelectorAll('[data-go]')) btn.addEventListener('click', () => navigate(btn.dataset.go));
+
+    // Activación: cada respuesta recibe una explicación concreta.
+    const introExplanations = [
+      'La lectura en grupos fue una acción del proceso, pero no explica por qué los estudiantes reunieron y conservaron las historias.',
+      'Correcto. El grupo leyó, comparó y recopiló relatos para conservar recuerdos de las familias; esta idea integra las acciones del fragmento.',
+      'El cuaderno fue el medio elegido para guardar los relatos. La idea central debe expresar el propósito de esa recopilación.'
+    ];
+    for (const btn of document.querySelectorAll('[data-intro]')) {
+      btn.addEventListener('click', () => {
+        const index = Number(btn.dataset.intro);
+        for (const other of document.querySelectorAll('[data-intro]')) {
+          other.classList.remove('correct','wrong');
+          other.setAttribute('aria-pressed', String(other === btn));
+        }
+        btn.classList.add(index === 1 ? 'correct' : 'wrong');
+        const feed = $('intro-feedback');
+        feed.hidden = false;
+        feed.className = 'feedback ' + (index === 1 ? 'success' : 'caution');
+        secureText(feed, (index === 1 ? '✓ ¡Bien razonado! ' : '↻ Sigue explorando. ') + introExplanations[index]);
+      });
+    }
+
+    // Demostración: la interpretación global surge de una secuencia de acciones.
+    const demoOriginal = 'Un grupo de jóvenes recogió plásticos en la orilla. Los clasificó en bolsas reutilizables y trasladó los residuos aprovechables a un punto de recolección. Antes de regresar, puso avisos para invitar a otras personas a mantener limpio el lugar.';
+    function updateDemo(mode) {
+      const box = $('demo-text');
+      const feed = $('demo-explanation');
+      box.replaceChildren();
+      if (mode === 'reset') {
+        secureText(box, demoOriginal); feed.hidden = true; return;
+      }
+      const pieces = ['Un grupo de jóvenes recogió plásticos en la orilla.', 'Los clasificó en bolsas reutilizables y trasladó los residuos aprovechables a un punto de recolección.', 'Antes de regresar, puso avisos para invitar a otras personas a mantener limpio el lugar.'];
+      for (const phrase of pieces) {
+        const span = document.createElement(mode === 'details' ? 'mark' : 'span');
+        span.textContent = phrase + ' ';
+        if (mode === 'summary') span.className = 'dim';
+        box.appendChild(span);
+      }
+      feed.hidden = false;
+      if (mode === 'details') secureText(feed, 'Estas tres acciones describen el desarrollo de la jornada. Para construir la idea global, considera qué propósito comparten.');
+      else secureText(feed, 'Idea global: «Un grupo de jóvenes realizó una jornada de limpieza y cuidado de la orilla». La construcción integra la recolección, la clasificación y la invitación a conservar el lugar.');
+    }
+    $('demo-details').addEventListener('click', () => updateDemo('details'));
+    $('demo-summary').addEventListener('click', () => updateDemo('summary'));
+    $('demo-reset').addEventListener('click', () => updateDemo('reset'));
+
+    // Aplicación: textos creados expresamente para esta actividad, no datos empíricos.
+    const readings = [
+      {
+        title:'La historia que volvió al aula', type:'Narrativo · Tradición oral',
+        sentences:[
+          'Al caer la tarde, Martina encontró a su abuelo reparando una red de pesca.',
+          'En vez de preguntarle por los nudos, le pidió que contara la historia de una tormenta que recordaba desde joven.',
+          'Él narró cómo los vecinos se avisaron de casa en casa y compartieron alimentos mientras pasaba el mal tiempo.',
+          'Martina anotó el relato y lo llevó a clase, donde otros estudiantes comenzaron a registrar historias de sus familias.',
+          'Al compartir estos relatos, los estudiantes ayudaron a conservar la memoria de su comunidad.'
+        ], main:4,
+        reasoning:'La última oración explica el sentido de las acciones anteriores: escuchar, escribir y compartir historias familiares para conservar la memoria colectiva.',
+        mistaken:[
+          'Describe qué hacía el abuelo cuando comenzó la conversación; ese detalle no reúne la finalidad de toda la historia.',
+          'Explica cómo nació la conversación, pero deja fuera lo que ocurrió después con el relato.',
+          'Recuerda un episodio contado por el abuelo; la narración principal trata de cómo se transmiten esas memorias.',
+          'Señala cómo los estudiantes iniciaron la recopilación; todavía falta explicar para qué compartieron esos relatos.'
+        ]
+      },
+      {
+        title:'Las raíces que sostienen la costa', type:'Expositivo · Ecosistemas',
+        sentences:[
+          'En los manglares, las raíces de ciertos árboles se extienden entre el agua y el suelo húmedo.',
+          'Entre esas raíces, numerosas especies encuentran refugio durante etapas tempranas de su vida.',
+          'Además, las raíces ayudan a retener parte de los sedimentos que lleva la corriente.',
+          'Por sus funciones de refugio y retención de sedimentos, los manglares contribuyen al equilibrio de los ecosistemas costeros.',
+          'En algunos lugares, los cangrejos recorren las raíces cuando baja la marea.'
+        ], main:3,
+        reasoning:'La cuarta oración reúne las funciones expuestas antes: ofrecer refugio y retener sedimentos; así explica su relación con el equilibrio costero.',
+        mistaken:[
+          'Presenta dónde crecen las raíces, pero no explica por sí sola su importancia ecológica.',
+          'Menciona una función del manglar, aunque el texto describe otra función vinculada con los sedimentos.',
+          'Señala una segunda función importante, pero no reúne la relación entre ambas funciones y el ecosistema.',
+          'Es un ejemplo de fauna del manglar; su alcance es más limitado que el tema global de la lectura.'
+        ]
+      },
+      {
+        title:'Las palabras que viajan de generación en generación', type:'Expositivo · Tradición oral',
+        sentences:[
+          'En algunas comunidades costeras, los relatos sobre la vida junto al mar se comparten en conversaciones familiares y encuentros colectivos.',
+          'Estas historias suelen mencionar nombres de lugares, consejos sobre el clima y recuerdos de acontecimientos compartidos.',
+          'Una misma historia puede cambiar cuando la cuentan distintas personas, aunque conserva sucesos reconocibles.',
+          'La tradición oral transmite conocimientos y memorias que una comunidad vuelve a interpretar cuando comparte sus relatos.',
+          'Al comparar versiones de una historia, los estudiantes pueden reconocer qué acontecimientos permanecen y cuáles cambian.'
+        ], main:3,
+        reasoning:'La cuarta oración integra el intercambio de relatos, su contenido y las variaciones entre versiones, pues explica cómo circulan conocimientos y memorias.',
+        mistaken:[
+          'Explica dónde suelen compartirse los relatos, pero no sintetiza el conocimiento que transmiten.',
+          'Enumera contenidos frecuentes de las historias; esos ejemplos apoyan un tema más amplio.',
+          'Describe una característica de la narración oral, pero la lectura desarrolla una función cultural más amplia.',
+          'Propone una actividad para analizar versiones; esa práctica se deriva del contenido central y no lo sustituye.'
+        ]
+      }
+    ];
+    let readingIndex = 0;
+    const solved = new Set();
+    const wrongSelected = new Map();
+    function renderReading() {
+      const r = readings[readingIndex];
+      secureText($('practice-type'), r.type);
+      secureText($('practice-counter'), 'Texto ' + (readingIndex + 1) + ' de ' + readings.length);
+      secureText($('practice-completed'), solved.size + ' de 3 resueltos');
+      secureText($('practice-title'), r.title);
+      const board = $('practice-text');
+      board.replaceChildren();
+      r.sentences.forEach((sentence, idx) => {
+        const button = document.createElement('button');
+        button.type='button';
+        button.className='sentence';
+        button.textContent=sentence;
+        button.setAttribute('aria-label','Seleccionar oración ' + (idx+1) + ': ' + sentence);
+        if (solved.has(readingIndex)) {
+          button.disabled=true;
+          button.classList.add(idx === r.main ? 'main-idea' : 'secondary-idea');
+        } else if (wrongSelected.get(readingIndex) === idx) button.classList.add('picked-wrong');
+        button.addEventListener('click', () => chooseSentence(idx));
+        board.appendChild(button);
+        board.appendChild(document.createTextNode(' '));
+      });
+      const feedback = $('practice-feedback');
+      feedback.hidden = !solved.has(readingIndex);
+      feedback.className = 'feedback success';
+      if (solved.has(readingIndex)) secureText(feedback,'✓ Correcto. ' + r.reasoning);
+      $('practice-legend').hidden = !solved.has(readingIndex);
+      $('practice-instruction').textContent = solved.has(readingIndex) ? 'En verde aparece la idea principal; los enunciados grises desarrollan aspectos particulares.' : 'Selecciona la oración que resume el sentido de todas las demás.';
+      $('practice-prev').disabled = readingIndex === 0;
+      $('practice-next').hidden = readingIndex === readings.length - 1;
+      $('practice-quiz').hidden = readingIndex !== readings.length - 1;
+    }
+    function chooseSentence(index) {
+      if (solved.has(readingIndex)) return;
+      const r = readings[readingIndex];
+      const feed = $('practice-feedback');
+      feed.hidden=false;
+      if (index === r.main) {
+        solved.add(readingIndex);
+        wrongSelected.delete(readingIndex);
+        renderReading();
+        return;
+      }
+      wrongSelected.set(readingIndex, index);
+      feed.className='feedback caution';
+      secureText(feed,'↻ Aún no. ' + r.mistaken[index] + ' Vuelve a elegir una oración que explique el sentido del conjunto.');
+      for (const btn of $('practice-text').querySelectorAll('.sentence')) btn.classList.remove('picked-wrong');
+      $('practice-text').querySelectorAll('.sentence')[index].classList.add('picked-wrong');
+    }
+    $('practice-prev').addEventListener('click', () => { if (readingIndex > 0) {readingIndex--; renderReading();} });
+    $('practice-next').addEventListener('click', () => { if (readingIndex < readings.length - 1) {readingIndex++; renderReading();} });
+    $('practice-quiz').addEventListener('click', () => navigate('quiz'));
+    renderReading();
+
+    // Autoevaluación: explicación propia de cada distractor con referencia textual explícita.
+    const questions = [
+      {
+        topic:'Narración · Idea principal',
+        stem:'¿Cuál es el sentido global de «La historia que volvió al aula»?',
+        evidence:'«Al compartir estos relatos, los estudiantes ayudaron a conservar la memoria de su comunidad».',
+        options:[
+          {text:'El abuelo explicó cómo reparar una red de pesca.', correct:false, why:'La red aparece al comienzo, pero el relato se centra en la transmisión de memorias.'},
+          {text:'Recopilar y compartir relatos familiares contribuyó a conservar la memoria comunitaria.', correct:true, why:'Abarca la conversación, el registro de las historias y su finalidad compartida.'},
+          {text:'La tormenta dañó las viviendas de la comunidad.', correct:false, why:'El texto no afirma que las viviendas se dañaran; esa conclusión carece de evidencia.'},
+          {text:'Martina prefirió contar una historia antes que asistir a clases.', correct:false, why:'El fragmento afirma que llevó la historia a clase, no que evitó asistir.'}
+        ]
+      },
+      {
+        topic:'Narración · Información secundaria',
+        stem:'¿Cuál de estos datos es secundario respecto del sentido global del relato de Martina?',
+        evidence:'«Al caer la tarde, Martina encontró a su abuelo reparando una red de pesca».',
+        options:[
+          {text:'Compartir memorias contribuyó a conservar la historia de la comunidad.',correct:false,why:'Esta oración expresa la finalidad de toda la narración.'},
+          {text:'Los relatos familiares fueron conservados al circular entre estudiantes.',correct:false,why:'Esta idea sigue conectando el proceso narrado con su finalidad central.'},
+          {text:'El abuelo estaba reparando una red cuando Martina se acercó.',correct:true,why:'La reparación sitúa la escena, pero no explica el sentido global de compartir relatos.'},
+          {text:'Las experiencias familiares pueden transmitirse entre generaciones.',correct:false,why:'Esta formulación representa una síntesis de la función de los relatos.'}
+        ]
+      },
+      {
+        topic:'Manglar · Idea principal',
+        stem:'¿Qué enunciado recoge mejor el mensaje del texto sobre los manglares?',
+        evidence:'«Por sus funciones de refugio y retención de sedimentos, los manglares contribuyen al equilibrio de los ecosistemas costeros».',
+        options:[
+          {text:'Todos los manglares tienen idénticas especies de cangrejos.',correct:false,why:'La lectura no compara las especies de distintos manglares.'},
+          {text:'Las raíces se extienden entre el agua y el suelo húmedo.',correct:false,why:'Describe el lugar donde se encuentran las raíces, pero deja fuera sus funciones.'},
+          {text:'Los manglares contribuyen al equilibrio costero al ofrecer refugio y retener sedimentos.',correct:true,why:'Integra las dos funciones que desarrolla la lectura y su importancia ecológica.'},
+          {text:'Los cangrejos solo se desplazan cuando baja la marea.',correct:false,why:'El texto menciona algunos cangrejos en ciertos lugares, sin afirmar que solo se muevan entonces.'}
+        ]
+      },
+      {
+        topic:'Manglar · Sustento textual',
+        stem:'¿Qué conjunto de evidencias respalda la idea de que el manglar contribuye al equilibrio costero?',
+        evidence:'«Numerosas especies encuentran refugio» y «las raíces ayudan a retener parte de los sedimentos».',
+        options:[
+          {text:'Los cangrejos recorren las raíces y las raíces están húmedas.',correct:false,why:'Estos datos describen el lugar, pero no reúnen las funciones decisivas que presenta el texto.'},
+          {text:'Algunas especies encuentran refugio y las raíces retienen parte de los sedimentos.',correct:true,why:'Ambas afirmaciones sustentan las funciones ecológicas expuestas en la idea central.'},
+          {text:'Todos los árboles costeros son mangles y todos crecen bajo el agua.',correct:false,why:'Son generalizaciones que no aparecen en el texto y no pueden derivarse de él.'},
+          {text:'Solo los cangrejos dependen de los manglares.',correct:false,why:'La lectura habla de numerosas especies, no de una dependencia exclusiva.'}
+        ]
+      },
+      {
+        topic:'Tradición oral · Idea principal',
+        stem:'¿Qué idea expresa el sentido global del texto sobre tradición oral?',
+        evidence:'«La tradición oral transmite conocimientos y memorias que una comunidad vuelve a interpretar cuando comparte sus relatos».',
+        options:[
+          {text:'Los relatos siempre se narran del mismo modo.',correct:false,why:'El texto indica que una misma historia puede cambiar entre narradores.'},
+          {text:'La tradición oral transmite memorias y conocimientos mediante relatos compartidos.',correct:true,why:'Sintetiza la función cultural que explican los ejemplos de la lectura.'},
+          {text:'Los nombres de lugares son el único contenido de las historias.',correct:false,why:'Se mencionan consejos sobre el clima y recuerdos junto a los nombres de lugares.'},
+          {text:'Los estudiantes deben escribir todas las historias escuchadas.',correct:false,why:'La lectura propone comparar versiones; no impone registrar todas las historias.'}
+        ]
+      },
+      {
+        topic:'Macrorreglas · Generalización',
+        stem:'Si un texto menciona «nombres de lugares, consejos sobre el clima y recuerdos de acontecimientos», ¿qué expresión los reúne mejor?',
+        evidence:'«Estas historias suelen mencionar nombres de lugares, consejos sobre el clima y recuerdos de acontecimientos compartidos».',
+        options:[
+          {text:'Datos sobre una tormenta concreta.',correct:false,why:'La lectura no limita esos contenidos a una tormenta.'},
+          {text:'Conocimientos y memorias compartidos en los relatos.',correct:true,why:'Agrupa los contenidos específicos en una formulación más amplia y coherente.'},
+          {text:'Nombres propios sin relación con la comunidad.',correct:false,why:'Omite los consejos y recuerdos que completan el sentido del conjunto.'},
+          {text:'Información científica demostrada experimentalmente.',correct:false,why:'La tradición oral puede transmitir experiencias, pero el texto no presenta pruebas científicas.'}
+        ]
+      },
+      {
+        topic:'Macrorreglas · Supresión',
+        stem:'Al resumir el relato de Martina, ¿qué dato puede omitirse sin perder la idea central?',
+        evidence:'«Martina encontró a su abuelo reparando una red de pesca».',
+        options:[
+          {text:'Que los estudiantes compartieron historias.',correct:false,why:'Sin ese intercambio se pierde un paso necesario para comprender el desenlace.'},
+          {text:'Que el intercambio ayudó a conservar la memoria comunitaria.',correct:false,why:'Esta es precisamente la finalidad que resume el relato.'},
+          {text:'Que el abuelo estaba reparando una red de pesca.',correct:true,why:'Es una circunstancia inicial que puede omitirse sin borrar la finalidad de compartir memorias.'},
+          {text:'Que Martina llevó el relato a clase.',correct:false,why:'Esta acción conecta la conversación familiar con la circulación de relatos en el grupo.'}
+        ]
+      },
+      {
+        topic:'Macrorreglas · Construcción',
+        stem:'¿Qué oración sintetiza la secuencia «recoger plásticos, clasificarlos y colocar avisos para cuidar el lugar»?',
+        evidence:'«Recogió plásticos»; «los clasificó»; «puso avisos para invitar a otras personas a mantener limpio el lugar».',
+        options:[
+          {text:'Un grupo de jóvenes realizó una jornada de limpieza y cuidado de la orilla.',correct:true,why:'Una sola acción global representa la secuencia de tareas y el propósito compartido.'},
+          {text:'Los jóvenes se reunieron para estudiar un nuevo idioma.',correct:false,why:'Nada en las acciones describe el estudio de una lengua.'},
+          {text:'Una persona dejó una bolsa sin clasificar.',correct:false,why:'El texto presenta clasificación de residuos, no abandono de bolsas.'},
+          {text:'Los avisos fueron la única actividad del grupo.',correct:false,why:'La secuencia incluye recolección y clasificación antes de colocar avisos.'}
+        ]
+      },
+      {
+        topic:'Tradición oral · Inferencia y evidencias',
+        stem:'Si una misma historia cambia entre narradores, pero mantiene sucesos reconocibles, ¿qué inferencia tiene respaldo?',
+        evidence:'«Una misma historia puede cambiar cuando la cuentan distintas personas, aunque conserva sucesos reconocibles».',
+        options:[
+          {text:'Toda nueva versión destruye por completo la memoria anterior.',correct:false,why:'La permanencia de sucesos reconocibles contradice esa interpretación extrema.'},
+          {text:'Solo una persona conoce la versión verdadera de todos los relatos.',correct:false,why:'El texto no atribuye exclusividad a un narrador.'},
+          {text:'Las variaciones pueden cambiar detalles sin eliminar necesariamente el núcleo del relato.',correct:true,why:'Se infiere del contraste entre los cambios de versión y la permanencia de acontecimientos.'},
+          {text:'Las historias nunca conservan elementos comunes.',correct:false,why:'La lectura indica explícitamente que algunos sucesos permanecen reconocibles.'}
+        ]
+      }
+    ];
+    let quizIndex = 0;
+    let answers = [];
+    let lives = 3;
+    let score = 0;
+    function renderQuiz() {
+      $('quiz-results').hidden = true;
+      $('quiz-play').hidden = false;
+      const question = questions[quizIndex];
+      secureText($('question-topic'), question.topic);
+      secureText($('question-stem'), question.stem);
+      secureText($('quiz-counter'), 'Pregunta ' + (quizIndex+1) + ' de ' + questions.length);
+      secureText($('quiz-score'), 'Puntos: ' + score + ' / ' + (questions.length*10));
+      secureText($('quiz-lives'), 'Vidas: ' + ('♥ '.repeat(lives).trim() || '0'));
+      secureText($('quiz-stars'), 'Estrellas: ★ ' + (score/10));
+      const pct = Math.round(100 * answers.length / questions.length);
+      $('quiz-fill').style.width = pct+'%';
+      secureText($('quiz-percent'), pct + ' % completado');
+      $('quiz-bar').setAttribute('aria-valuenow', String(pct));
+      $('quiz-feedback').hidden = true;
+      $('quiz-next').hidden = true;
+      const list = $('quiz-options');
+      list.replaceChildren();
+      question.options.forEach((option, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'choice option';
+        const letter = document.createElement('span');
+        letter.className = 'option-letter';
+        letter.textContent = 'ABCD'[idx];
+        const text = document.createElement('span');
+        text.textContent = option.text;
+        btn.append(letter, text);
+        btn.addEventListener('click', () => selectOption(idx));
+        list.appendChild(btn);
+      });
+    }
+    function selectOption(index) {
+      if (answers.length !== quizIndex) return;
+      const question = questions[quizIndex];
+      const option = question.options[index];
+      const correctOption = question.options.find(o => o.correct);
+      if (option.correct) score += 10; else lives = Math.max(0,lives-1);
+      answers.push({questionIndex:quizIndex, chosen:index, correct:option.correct});
+      for (const [i, btn] of [...$('quiz-options').children].entries()) {
+        btn.disabled=true;
+        if (question.options[i].correct) btn.classList.add('correct');
+        else if (i === index) btn.classList.add('wrong');
+      }
+      secureText($('quiz-score'), 'Puntos: ' + score + ' / ' + (questions.length*10));
+      secureText($('quiz-lives'), 'Vidas: ' + ('♥ '.repeat(lives).trim() || '0'));
+      secureText($('quiz-stars'), 'Estrellas: ★ ' + score/10);
+      const pct = Math.round(100 * answers.length / questions.length);
+      $('quiz-fill').style.width = pct + '%';
+      $('quiz-percent').textContent = pct + ' % completado';
+      $('quiz-bar').setAttribute('aria-valuenow',String(pct));
+      const feed = $('quiz-feedback');
+      feed.hidden = false;
+      feed.className = 'feedback ' + (option.correct ? 'success' : 'caution');
+      feed.replaceChildren();
+      const headline = document.createElement('strong');
+      headline.textContent = option.correct ? '✓ Respuesta correcta.' : '↻ Esta opción no es la más adecuada.';
+      const why = document.createElement('p');
+      why.textContent = option.why;
+      const evidence = document.createElement('p');
+      evidence.textContent = 'Pista textual: ' + question.evidence;
+      feed.append(headline, why, evidence);
+      if (!option.correct) {
+        const answerLine = document.createElement('p');
+        answerLine.textContent='Respuesta adecuada: ' + correctOption.text;
+        feed.appendChild(answerLine);
+      }
+      $('quiz-next').textContent = answers.length === questions.length ? 'Ver mis resultados →' : 'Continuar →';
+      $('quiz-next').hidden = false;
+    }
+    function showResults() {
+      $('quiz-play').hidden=true;
+      $('quiz-results').hidden=false;
+      const percent = Math.round(score/(questions.length*10)*100);
+      const level = percent >= 80 ? 'Consolidado' : percent >= 50 ? 'En desarrollo' : 'Inicial';
+      secureText($('results-level'), 'Nivel: ' + level);
+      secureText($('results-score'), percent + '%');
+      secureText($('results-summary'), 'Acertaste ' + score/10 + ' de ' + questions.length + ' preguntas y obtuviste ' + score + ' de ' + questions.length*10 + ' puntos.');
+      secureText($('results-advice'), percent >= 80 ? 'Buen manejo de las relaciones entre idea central y evidencias. Sigue justificando cada síntesis con el texto.' : percent >= 50 ? 'Hay avances. Revisa las preguntas falladas y practica cómo distinguir la idea global de sus detalles.' : 'Conviene volver a la demostración y a las tres lecturas para reconocer qué oración explica el texto completo.');
+      const list=$('results-list');
+      list.replaceChildren();
+      for (const response of answers) {
+        const q=questions[response.questionIndex];
+        const row=document.createElement('div');
+        row.className='result-row ' + (response.correct ? '' : 'bad');
+        const strong=document.createElement('strong');
+        strong.textContent='Pregunta '+(response.questionIndex+1)+': '+(response.correct?'✓ Correcta':'✕ Para revisar');
+        const detail=document.createElement('span');
+        detail.textContent=q.topic+' · '+(response.correct ? 'Identificaste la opción adecuada.' : 'Respuesta adecuada: '+q.options.find(x=>x.correct).text);
+        row.append(strong,detail);list.appendChild(row);
+      }
+    }
+    $('quiz-next').addEventListener('click', () => {
+      if (answers.length !== quizIndex+1) return;
+      if (answers.length >= questions.length) { showResults(); return; }
+      quizIndex++;
+      renderQuiz();
+      $('question-stem').focus({preventScroll:true});
+    });
+    function retry() { quizIndex=0; answers=[]; score=0; lives=3; renderQuiz(); }
+    $('quiz-retry').addEventListener('click', retry);
+    $('quiz-print').addEventListener('click', () => window.print());
+    $('quiz-export').addEventListener('click', () => {
+      const percentage = Math.round(100*score/(questions.length*10));
+      const level = percentage>=80 ? 'Consolidado' : percentage>=50 ? 'En desarrollo' : 'Inicial';
+      const lines = ['ENTRE LÍNEAS · RESULTADOS DE AUTOEVALUACIÓN','Institución Educativa San José del Pantano · Grado 9.º','Sin datos personales · Elaborado localmente','',`Puntaje: ${score} / ${questions.length*10}`,`Aciertos: ${score/10} de ${questions.length}`,`Porcentaje: ${percentage} %`,`Nivel: ${level}`,''];
+      for (const item of answers) {
+        const q=questions[item.questionIndex];
+        lines.push(`${item.questionIndex+1}. ${q.stem}`, 'Respuesta elegida: '+q.options[item.chosen].text,'Evaluación: '+(item.correct?'Correcta':'Revisar'),'Respuesta adecuada: '+q.options.find(o=>o.correct).text,'Evidencia: '+q.evidence,'');
+      }
+      const blob = new Blob([lines.join('\n')], {type:'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;a.download='resultados-lectura-critica-9.txt';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 500);
+    });
+    renderQuiz();
+  })();
+  </script>
+</body>
+</html>
