@@ -90,7 +90,7 @@ const $=id=>document.getElementById(id);
 const make=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=String(txt);return e};
 const TOTAL=DATA.questions.length+DATA.inferExam.length+DATA.argumentCases.reduce((x,c)=>x+c.f.length,0)+DATA.finalQuestions.length;
 const KEY='ova-lectura-critica-9-v1';
-const CLOUD_SYNC=location.pathname.replace(/\\/$/,'')==='/ova';
+const CLOUD_SYNC=location.pathname==='/ova';
 const blank=()=>({readingSolved:[],m1Answers:[],m2Solved:[],m2Answers:[],m3Answers:[],finalAnswers:[]});
 let state=blank();
 if(!CLOUD_SYNC)try{const saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved&&Array.isArray(saved.m1Answers)&&Array.isArray(saved.m3Answers))for(const key in state)if(Array.isArray(saved[key]))state[key]=saved[key]}catch{}
