@@ -90,9 +90,64 @@ const $=id=>document.getElementById(id);
 const make=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=String(txt);return e};
 const TOTAL=DATA.questions.length+DATA.inferExam.length+DATA.argumentCases.reduce((x,c)=>x+c.f.length,0)+DATA.finalQuestions.length;
 const KEY='ova-lectura-critica-9-v1';
+const CLOUD_SYNC=location.pathname.replace(/\\/$/,'')==='/ova';
 const blank=()=>({readingSolved:[],m1Answers:[],m2Solved:[],m2Answers:[],m3Answers:[],finalAnswers:[]});
-let state=blank();try{const saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved&&Array.isArray(saved.m1Answers)&&Array.isArray(saved.m3Answers))for(const key in state)if(Array.isArray(saved[key]))state[key]=saved[key]}catch{}
-function persist(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
+let state=blank();
+if(!CLOUD_SYNC)try{const saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved&&Array.isArray(saved.m1Answers)&&Array.isArray(saved.m3Answers))for(const key in state)if(Array.isArray(saved[key]))state[key]=saved[key]}catch{}
+let pendingSync=false,activeSync=false,syncTimer=null,syncStatus=null;
+function syncMessage(message){if(syncStatus)syncStatus.textContent=message}
+function persist(){
+ if(!CLOUD_SYNC){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{};return}
+ pendingSync=true;
+ syncMessage('☁️ Guardando…');
+ if(syncTimer===null)syncTimer=setTimeout(sendProgress,500);
+}
+async function sendProgress(){
+ if(syncTimer!==null){clearTimeout(syncTimer);syncTimer=null}
+ if(!pendingSync||activeSync)return;
+ activeSync=true;pendingSync=false;
+ try{
+  const result=await fetch('/api/state',{method:'POST',credentials:'same-origin',
+   headers:{'Content-Type':'application/json'},body:JSON.stringify({state})});
+  if(result.status===401){location.assign('/login');return}
+  if(!result.ok)throw new Error('Error '+result.status);
+  syncMessage('☁️ Guardado');
+ }catch(error){
+  pendingSync=true;
+  syncMessage('⚠️ Sin sincronizar. Reintentando…');
+ }finally{
+  activeSync=false;
+  if(pendingSync&&syncTimer===null)syncTimer=setTimeout(sendProgress,1500);
+ }
+}
+async function startOVA(){
+ if(!CLOUD_SYNC){show('home');return}
+ const head=document.querySelector('.headright');
+ syncStatus=make('span','offline','☁️ Cargando progreso…');
+ syncStatus.setAttribute('role','status');
+ if(head)head.append(syncStatus);
+ const main=$('main');main.hidden=true;
+ try{
+  const response=await fetch('/api/state',{credentials:'same-origin',cache:'no-store'});
+  if(response.status===401){location.replace('/login');return}
+  if(!response.ok)throw new Error('No se pudo cargar el avance.');
+  const remote=(await response.json()).state;
+  if(remote&&Array.isArray(remote.m1Answers)&&Array.isArray(remote.m3Answers))
+   for(const key in state)if(Array.isArray(remote[key]))state[key]=remote[key];
+  main.hidden=false;
+  syncMessage('☁️ Sincronizado');
+  show('home');
+ }catch{
+  main.hidden=false;
+  main.replaceChildren();
+  const error=make('section','card');
+  error.append(make('h2','','Error de conexión'),
+    make('p','','No se pudo recuperar el progreso. Comprueba tu conexión antes de responder.'));
+  const retry=make('a','','Reintentar');retry.href='/ova';error.append(retry);
+  main.append(error);
+  syncMessage('⚠️ Conexión no disponible');
+ }
+}
 let page='home',m1Read=0,m2Case=0,m2Chosen=new Map(),m2Hints=new Map(),pending={},m3Wait=false;
 const m2Current=()=>DATA.inferCases[m2Case];
 const counts=()=>({n1:state.m1Answers.length,n2:state.m2Answers.length,n3:state.m3Answers.length,n4:state.finalAnswers.length});
@@ -120,6 +175,6 @@ function renderFinal(){const s=score();$('finalStat').textContent=s.c.n4+'/6 pre
 function renderFinalStats(){const s=score();$('finalStat').textContent=s.c.n4+'/6 preguntas · '+s.correct4+' aciertos';$('finalProgress').style.width=(s.c.n4/6*100)+'%';updateBar()}
 function renderReport(){const s=score(),pct=Math.round(s.given/TOTAL*100),accuracy=s.given?Math.round(s.correct/s.given*100):0;const rank=s.total>=85?'Experto':s.total>=65?'Avanzando':s.total>=35?'En desarrollo':'Inicial';$('repScore').textContent=s.total+' / 100';$('repProgress').textContent=pct+' %';$('repAccuracy').textContent=accuracy+' %';$('repRank').textContent=rank;const rows=[['📖 Ideas principales',s.correct1,s.c.n1,9,30],['🔍 Inferencias',s.correct2,s.c.n2,4,30],['⚖️ Argumentación',s.correct3,s.c.n3,50,30],['🚀 Integración',s.correct4,s.c.n4,6,10]];const region=$('reportRows');region.replaceChildren();const table=make('table','');const thead=make('thead','');const tr=make('tr','');for(const v of ['Actividad','Aciertos','Respuestas','Peso'])tr.append(make('th','',v));thead.append(tr);table.append(thead);const tbody=make('tbody','');for(const r of rows){const line=make('tr','');for(const val of [r[0],r[1],r[2]+' / '+r[3],r[4]+' puntos'])line.append(make('td','',val));tbody.append(line)}table.append(tbody);region.append(table);const badges=$('badges');badges.replaceChildren();[['📚','Explorador de ideas',s.c.n1===9],['🔎','Detective de pistas',state.m2Solved.length===4&&s.c.n2===4],['⚖️','Analista de argumentos',s.c.n3===50],['🏆','Lector integral',s.c.n4===6&&s.given===TOTAL]].forEach(([ico,title,earn])=>{const card=make('div','award'+(earn?' earned':''));card.append(make('div','medal',ico),make('div','',title),make('small','muted',earn?'¡Conseguida!':'Por desbloquear'));badges.append(card)});const objectives=[{p:s.c.n1/9,tip:'repasar cómo se construye la idea principal a partir del mensaje global'},{p:s.c.n2/4,tip:'contrastar hipótesis con al menos dos pistas textuales'},{p:s.c.n3/50,tip:'distinguir tesis, razones y evidencias y explicar su relación'}];objectives.sort((a,b)=>a.p-b.p);$('reportAdvice').textContent=s.given===0?'Comienza con la misión 1, observa el ejemplo y practica antes de responder.':s.given===TOTAL?'Has realizado todo el recorrido. Regresa a las respuestas equivocadas y explica con palabras propias qué pista sostiene cada decisión.':'Sugerencia personalizada: conviene '+objectives[0].tip+'. Puedes cambiar de misión sin perder tu avance local.';}
 $('printReport').addEventListener('click',()=>window.print());$('resetAll').addEventListener('click',()=>{if(!window.confirm('¿Eliminar todos los resultados guardados en este navegador?'))return;state=blank();m2Hints=new Map();m2Chosen=new Map();persist();show('home')});
-show('home');
+startOVA();
 </script>
 </body></html>
