@@ -151,7 +151,7 @@ function hint(){state.hints++;event('pista');const c=CASES[state.caseId];let msg
 function teacher(){event('consulta_docente');log('agent','Es adecuado consultar al docente si hay varias interpretaciones posibles, si una pista resulta ambigua o si necesitas una valoración de tu argumento. Presenta tu hipótesis, la oración elegida y tu explicación.')} 
 function switchCase(id){const ok=Number.isInteger(id)&&id>=0&&id<CASES.length;if(!ok)return;state=readSaved(id);save();renderReading();renderChat();if(!state.messages.length)welcome();$('reply').value='';event('cambio_caso')}
 function resetCase(){if(!confirm('¿Reiniciar las respuestas del caso actual?'))return;const id=state.caseId;state=blank();state.caseId=id;save();renderReading();renderChat();welcome();event('reinicio_caso')}
-function erase(){if(!confirm('¿Borrar todas las respuestas guardadas localmente?'))return;try{for(let i=0;i<CASES.length;i++)localStorage.removeItem(KEY+'-case-'+i);localStorage.removeItem(KEY+'-active')}catch(e){}state=blank();save();renderReading();renderChat();welcome();event('borrado')}
+function erase(){if(!confirm('¿Borrar todas las respuestas guardadas localmente?'))return;try{for(let i=0;i<CASES.length;i++)localStorage.removeItem(KEY+'-case-'+i);localStorage.removeItem(KEY+'-active')}catch(e){}state=blank();save();if(tutorConnected){for(let i=0;i<CASES.length;i++)pendingCases.set(i,0);scheduleTutorSync()}renderReading();renderChat();welcome();event('borrado')}
 
 /* Preguntas libres opcionales: si la conexión o la IA falla, no altera la tutoría local. */
 let askingAI=false;
