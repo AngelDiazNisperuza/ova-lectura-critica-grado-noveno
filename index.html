@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#302057">
+<meta name="theme-color" content="#0c0f11">
 <meta name="description" content="Rutas de Lectura Crítica: OVA gamificado para grado noveno, con lectura, inferencias, argumentación y evaluación, disponible sin conexión.">
 <title>Rutas de Lectura Crítica · OVA interactivo · Grado 9.º</title>
 <style>
@@ -14,6 +14,118 @@
 @media(max-width:530px){.main{padding:16px 13px 35px}.hero{padding:22px;border-radius:19px}.hero h1{font-size:2.3rem}.hero-art{display:none}.grid2,.featuregrid,.glossary{grid-template-columns:1fr}.pagehead{padding:19px;gap:10px}.pagehead .bigicon{font-size:2.7rem}.answers3{grid-template-columns:1fr}.answers3 button{min-height:52px}.answers3 button span{display:inline;margin-right:8px}.topbar{padding:8px 13px}.headright{gap:6px}.tiny-track{width:67px}.card,.question{padding:17px}.reading{padding:12px}.footnote{font-size:.77rem}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 @media print{@page{size:A4;margin:14mm}body{background:white;color:black!important;font:10pt Arial,sans-serif}.sidebar,.topbar,.no-print,.hero,.app-footer{display:none!important}.app{display:block}.main{padding:0;margin:0;max-width:none}.page{display:none!important}#report.page{display:block!important;animation:none}.pagehead{background:none!important;color:black!important;padding:8px;border:0}.pagehead p,.pagehead .kicker{color:black!important}.card{box-shadow:none!important;border:1px solid #999!important}#printReady{display:block!important}table{font-size:8pt}th{background:#ddd!important}.report-metrics{grid-template-columns:repeat(4,1fr)!important;gap:5px}.report-metrics>div{padding:10px}.report-metrics strong{font-size:17pt;color:black}h2{font-size:16pt}tr{break-inside:avoid}.awards{display:none!important}}
+</style>
+
+<style id="nordic-insanjo-theme">
+/* Vista previa: precisión nórdica reinterpretada con el escudo institucional.
+   Diseño CSS; los flujos, las evaluaciones y el guardado permanecen intactos. */
+:root{
+ color-scheme:dark;
+ --ink:#f0f2f3;--muted:#a3acb3;
+ --violet:#86c8ec;--violet-deep:#87cdec;--lavender:#182735;
+ --coral:#e5b94b;--coral-soft:#292414;--sky:#86c8ec;--sky-light:#172b37;
+ --sun:#f0d14b;--sunlight:#292819;--surface:#171a1c;
+ --line:#353b40;--canvas:#0c0f11;--shadow:none;--round:0px;
+ --insanjo-blue:#4e9fce;--insanjo-green:#9cc75b;--insanjo-yellow:#f0d14b;
+}
+html,body{background:#0c0f11;color:#f0f2f3}
+body,button,input,select,textarea{font-family:Outfit,"Segoe UI",system-ui,sans-serif}
+h1,h2,h3,.display,.brand{font-family:Outfit,"Segoe UI",system-ui,sans-serif;letter-spacing:.015em}
+h1{font-weight:350}h2{font-weight:450}
+a,.kicker{color:#92cee9}
+button,input,select,textarea{border-radius:0!important}
+button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visible,
+select:focus-visible,textarea:focus-visible{outline:2px solid var(--insanjo-yellow);outline-offset:3px}
+*:not(.medal){box-shadow:none!important}
+.sidebar{background:#101416;border-right:1px solid #343b40}
+.brand{font-weight:650;letter-spacing:.035em}
+.brandmark{background:#192c35;color:#f0d14b;border:1px solid #4e9fce;border-left:3px solid #9cc75b}
+.level{background:#201f14;color:#f5dc7a;border:1px solid #665b2b;letter-spacing:.065em;text-transform:uppercase}
+.nav button{color:#c7d0d6;text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:550;background:transparent}
+.nav button:hover{background:#1b292e;color:#fff}
+.nav button[aria-current="page"]{background:#1d313b;color:#f8d85c;border-left:3px solid #f0d14b}
+.sidebar-tip{background:#191e1e!important;border:1px solid #37473c!important;color:#dce6d9}
+.sidebar-tip p,.offline{color:#a7b4b6}
+.topbar{background:rgba(15,19,21,.95);border-bottom:1px solid #343b40;backdrop-filter:blur(18px)}
+.crumb{color:#cad1d5;text-transform:uppercase;font:500 11px/1.4 "Space Grotesk",system-ui,sans-serif;letter-spacing:.14em}
+.xp,.stat{background:#2b2817;border:1px solid #a08931;color:#f8df6f;letter-spacing:.04em}
+.tiny-track,.progress{background:#343a39}.tiny-track span,.progress>span{background:linear-gradient(90deg,#4e9fce,#9cc75b,#f0d14b)}
+.main{background:#0c0f11}
+.page{animation:none}
+.hero{background:linear-gradient(130deg,#121a1e 0%,#10171b 67%,#1c271d 100%);border:1px solid #3f4d4d;border-top:2px solid #f0d14b;min-height:390px;position:relative}
+.hero:after{width:330px;height:330px;border:1px solid #9cc75b29;border-radius:0;right:-140px;bottom:-120px;transform:rotate(45deg)}
+.hero .eyebrow{background:#28301b;border:1px solid #67733c;color:#e8d36c;letter-spacing:.17em}
+.hero h1{font-weight:350;letter-spacing:.03em;font-size:clamp(2.25rem,4.1vw,4.2rem)}
+.hero h1 em{color:#f0d14b}
+.hero p{color:#b9c7ce;font-weight:350}
+.reader-art{filter:saturate(.65) contrast(1.1);border:1px solid #546770;border-radius:0;transform:none}
+.floating{background:#15252c;border:1px solid #384750;color:#f0d14b;border-radius:0;transform:none}
+.btn,.btn.coral,.btn.sky,.btn.sun,.btn.ghost{
+ border:1px solid #638597;border-radius:0;
+ background:#1c455b;color:#f4fbff;
+ min-height:45px;text-transform:uppercase;letter-spacing:.09em;
+ font:650 12px/1.3 Outfit,system-ui,sans-serif;
+}
+.btn.sun{background:#f0d14b;border-color:#f0d14b;color:#101719}
+.btn.coral{background:#557b44;border-color:#91c15a;color:#fff}
+.btn.sky{background:#255c7d;border-color:#4e9fce;color:#fff}
+.btn.ghost{background:transparent;color:#e2e7e9;border:1px solid #8c9698}
+.btn:hover:not(:disabled){filter:brightness(1.15);transform:none;background-color:#286b8c}
+.btn.sun:hover:not(:disabled){background:#ffe276;color:#141719}
+.btn:active{transform:none}
+.card,.feature,.question,.subbox,.award,.report-metrics>div,.glossary details{
+ background:#171c1e;border:1px solid #343d40;color:#e4e9ea;border-radius:0;
+}
+.mission-card.one::before{background:#302b16}
+.mission-card.two::before{background:#172e3b}
+.mission-card.three::before{background:#25311f}
+.mission-card .symbol{filter:saturate(.85)}
+.mission-card .btn{margin-top:auto}
+.mission-number{background:#bb9d30;color:#080d0e;border-radius:0}
+.two .mission-number{background:#397fa8;color:white}
+.three .mission-number{background:#678c47;color:white}
+.feature b,.report-metrics strong{color:#f2da68}
+.pagehead,.pagehead.blue,.pagehead.orange{
+ background:linear-gradient(100deg,#15252d,#14201b);
+ border:1px solid #45585a;border-top:3px solid #4e9fce;border-radius:0;color:#f1f6f7;
+}
+.pagehead.orange{border-top-color:#f0d14b}
+.pagehead.blue{border-top-color:#9cc75b}
+.pagehead p{color:#adbdc5}
+.pagehead .kicker{color:#e9d565}
+.step,.step.done,.case-select button,.pill{
+ border:1px solid #47524b;background:#1a2423;color:#d0e2cd;border-radius:0;
+ font:550 12px/1.4 "Space Grotesk",system-ui,sans-serif;
+}
+.step.done,.case-select button.solved{border-color:#8ab95a;background:#1d311e;color:#c9f09b}
+.case-select button[aria-pressed="true"]{background:#285a78;border-color:#85c4e8;color:white}
+.reading,.fragment,.argument-read{
+ background:#1d1e1b;color:#e2e0d1;border:1px solid #56513b;border-radius:0;
+}
+.sentence,.option,.answers3 button{
+ background:#151a1c;color:#e9edef;border:1px solid #3f494d;border-radius:0;
+}
+.sentence:hover:not(:disabled),.option:hover:not(:disabled),.answers3 button:hover:not(:disabled){
+ background:#203039;border-color:#559ac5;color:#fff;
+}
+.sentence.selected,.option.chosen,.option.ok{
+ background:#203c38;border-color:#9cc75b;color:#f1f7f1;
+}
+.sentence.wrong,.option.bad,.feedback.bad{background:#34231f;border-color:#d28c66;color:#f0c8a5}
+.letter{background:#263740;color:#c7e7f9;border-radius:0}
+.feedback,.feedback.info{background:#202b31;color:#d6e9f3;border-left:3px solid #4e9fce;border-radius:0}
+.feedback.info{background:#292817;color:#f0df9b;border-color:#f0d14b}
+.report-metrics small,.instruction,.muted,.footnote,.section-head p{color:#a5b2ba}
+.award.earned{background:#302c19;border-color:#c4aa42}
+th{background:#222b2c;color:#f0d66b}
+td,th{border-bottom:1px solid #343d40}
+a:hover{text-decoration:underline}
+@media(max-width:850px){
+ .sidebar{background:#111618}.nav button{border:1px solid #344146}
+ .nav button[aria-current="page"]{border-left:3px solid #f0d14b}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
+@media print{html,body,.main{background:white;color:black} .card,.question,.report-metrics>div{background:white;color:black;border-color:#bbb}}
 </style>
 </head>
 <body>
