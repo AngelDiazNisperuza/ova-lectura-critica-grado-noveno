@@ -10,13 +10,74 @@
 @media print{.top,.buttons,.controls,.sentence button,select,footer{display:none!important}.layout{display:block;margin:0}.pane{border:0;box-shadow:none;page-break-inside:avoid}.chatlog{height:auto;overflow:visible}.sentence{page-break-inside:avoid}}
 .ai-panel{border:1px solid #b5d8c9;background:#f4fbf6;border-radius:14px;padding:14px;display:grid;gap:9px}.ai-panel h2{font-size:16px}.ai-panel label{font-size:13px;font-weight:750}.ai-panel textarea{width:100%;min-height:66px;padding:10px 12px;border:1px solid #a9c6b9;border-radius:9px;background:white;resize:vertical}.ai-panel .buttons{align-items:center;gap:10px}.ai-panel #aiStatus{font-size:12px}.ai-panel button[disabled]{opacity:.65;cursor:wait}
 @media print{.ai-panel{display:none!important}}
+
+/* Identidad visual de la IE San José del Pantano: azul, verde y amarillo del escudo. */
+:root{--school-blue:#347FB1;--school-green:#79B73C;--school-yellow:#FFE934;--school-navy:#144E74;--school-leaf:#315F35;--green:#327949;--ink:#1c3342;--muted:#536973;--line:#c9dce2;--sun:#fff4ad}
+body{background:linear-gradient(145deg,#e9f3f8 0%,#f4f9f4 52%,#fdfbe7 100%);color:var(--ink)}
+.top{background:linear-gradient(115deg,#164e73,#337fb1 64%,#276f95);border-bottom:5px solid var(--school-yellow);box-shadow:0 6px 25px #194b6b22}
+.top .logo{background:var(--school-yellow);border:2px solid #fff;color:var(--school-navy);box-shadow:0 3px 15px #102f4330}
+.top small{color:#edf7fb}.top .pill{background:#def1c4;color:#1e5836;border:1px solid #ffffffa3}
+.pane{border-color:#cbdde6}.pane header{border-top:4px solid var(--school-green)}
+.pane:nth-child(2) header{border-top-color:var(--school-blue)}
+#question{background:#fff8c9;border-left:4px solid var(--school-yellow);color:#234257}
+.sentence .num{background:#dfefd0;color:#285839}.sentence.selected{background:#f1f9e9;border-color:#8dbd59}
+.sentence button{color:#205f46;border-color:#8dbb9c}
+.chatlog{background:#f5f9fc}.bubble.agent{border-left:3px solid var(--school-green)}
+.bubble.user{background:#2b739d;color:white}
+.meter{background:#dae7ed}.meter span{background:linear-gradient(90deg,var(--school-blue),var(--school-green),var(--school-yellow))}
+.controls{background:#fbfcfd;gap:14px}
+.input-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:stretch}
+.entry-panel,.ai-panel{padding:16px;display:flex;flex-direction:column;gap:11px;border-radius:15px;min-width:0;margin:0}
+.local-entry{background:#edf5fa;border:1.5px solid #bad4e5;border-top:4px solid var(--school-blue)}
+.ai-panel{background:#f4f9eb;border:1.5px solid #bdd9a1;border-top:4px solid var(--school-green)}
+.entry-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.entry-heading h2{font-size:16px;color:var(--school-navy);line-height:1.35}
+.ai-panel .entry-heading h2{color:var(--school-leaf)}
+.entry-tag{font-size:10px;line-height:1.2;padding:5px 7px;border-radius:100px;font-weight:800;white-space:nowrap}
+.local-tag{background:#d7e9f6;color:#18577a}.ai-tag{background:#e4efcd;color:#3c6630}
+.entry-panel .help{font-size:12px;line-height:1.48;min-height:52px}
+.controls textarea,.ai-panel textarea{display:block;width:100%;height:124px;min-height:124px;max-height:200px;background:#fff;border:1px solid #a7c3d1;resize:vertical;padding:11px;border-radius:11px;font-size:14px}
+.ai-panel textarea{border-color:#9fc78e}
+.controls textarea:focus-visible{outline:3px solid #ffe77f;outline-offset:2px}
+.key-hint{font-size:11px;line-height:1.5;color:#465d68;margin-top:auto}
+kbd{display:inline-block;border:1px solid #b2c6cc;border-bottom:2px solid #96aeb7;border-radius:5px;padding:2px 5px;font:700 11px system-ui;background:white;color:#284a58}
+.tools-row{padding-top:11px;border-top:1px solid #d7e5e7}
+button.secondary{background:#fff;color:var(--school-navy);border-color:#90b8d2}
+button.secondary:hover{background:#eaf4fb}
+button.warn{background:#fff9d8;color:#735c16;border-color:#efcf68}
+.privacy-notice{border-left:3px solid var(--school-yellow);padding-left:12px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(min-width:1060px){.layout{grid-template-columns:minmax(290px,.85fr) minmax(520px,1.15fr)}}
+@media(max-width:780px){.input-grid{grid-template-columns:1fr}.entry-panel .help{min-height:0}.controls textarea,.ai-panel textarea{height:95px;min-height:95px}}
+@media(max-width:520px){.controls{padding:14px 12px}.entry-panel,.ai-panel{padding:13px}.entry-heading h2{font-size:16px}}
+@media print{.controls{display:none!important}.top{background:white!important;color:black;border-color:#000}.pane header{border-color:#888}}
 </style>
 </head>
 <body>
 <div class="top"><div class="mark"><div class="logo" aria-hidden="true">9</div><div><strong>API Lector 9</strong><small>Institución Educativa San José del Pantano · Lengua Castellana</small></div></div><span class="pill">Tutoría guiada sin internet</span></div>
 <main class="layout">
 <section class="pane" aria-labelledby="readingTitle"><header><h1 id="readingTitle">Lectura y pregunta</h1><p>Selecciona un caso. Lee con atención antes de conversar; usa el texto para justificar tus interpretaciones.</p></header><div class="section"><label for="caseSelect">Caso de inferencia</label><select id="caseSelect"></select><div id="question" aria-live="polite"></div></div><div class="section"><h2 id="textTitle"></h2><p class="help" style="margin-top:6px">Las oraciones están numeradas para citar evidencias. Puedes seleccionar una en cualquier momento.</p><div id="sentences" class="sentences"></div></div></section>
-<section class="pane" aria-labelledby="agentTitle"><header><h1 id="agentTitle">Acompañamiento socrático</h1><p>El agente solicita una hipótesis, una evidencia y su explicación. No muestra la respuesta del examen ni califica el OVA.</p><div class="meter"><span id="meterFill"></span></div><div class="steps"><span>1. Hipótesis</span><span>2. Evidencia</span><span>3. Justificación</span><span>4. Revisión</span></div><div class="status" id="status" role="status"></div></header><div id="chat" class="chatlog" role="log" aria-live="polite" aria-relevant="additions text"></div><div class="controls"><label for="reply" style="font-weight:750;font-size:13px">Tu respuesta</label><textarea id="reply" placeholder="Escribe con tus propias palabras..." maxlength="1500"></textarea><div class="ai-panel" aria-labelledby="aiTitle"><h2 id="aiTitle">🤖 Pregunta libre a la IA</h2><p class="help">Con internet, la IA responde mediante preguntas que ayudan a razonar, sin entregar respuestas de la evaluación. Si la conexión falla, continúa el apoyo local.</p><label for="aiQuestion">¿Qué quieres preguntar sobre esta lectura?</label><textarea id="aiQuestion" maxlength="500" rows="3" placeholder="Por ejemplo: ¿cómo identifico una pista para mi hipótesis?"></textarea><div class="buttons"><button id="askAi" class="primary" type="button">Preguntar a la IA</button><span id="aiStatus" role="status" aria-live="polite" class="help">El tutor local está disponible sin internet.</span></div><p class="help">Privacidad: cuando hay conexión y el servicio de IA está disponible, la pregunta se envía a Cloudflare para generar una pista. No escribas nombres, teléfonos ni datos personales. No afecta tus puntos.</p></div><div class="buttons"><button id="send" class="primary">Enviar respuesta</button><button id="hint" class="secondary">Pedir pista</button><button id="teacher" class="secondary">Consultar al docente</button><button id="reset" class="warn">Reiniciar caso</button><button id="export" class="secondary">Informe PDF</button><button id="erase" class="warn">Borrar registros</button></div><p class="help">Aviso: las etapas y pistas básicas funcionan localmente sin IA. La pregunta libre utiliza IA generativa únicamente si la sesión está en línea y el servicio responde; las preguntas enviadas al servidor no se guardan en el historial del Worker. El avance del tutor se guarda en este navegador; el docente mantiene la evaluación.</p></div></section>
+<section class="pane" aria-labelledby="agentTitle"><header><h1 id="agentTitle">Acompañamiento socrático</h1><p>El agente solicita una hipótesis, una evidencia y su explicación. No muestra la respuesta del examen ni califica el OVA.</p><div class="meter"><span id="meterFill"></span></div><div class="steps"><span>1. Hipótesis</span><span>2. Evidencia</span><span>3. Justificación</span><span>4. Revisión</span></div><div class="status" id="status" role="status"></div></header><div id="chat" class="chatlog" role="log" aria-live="polite" aria-relevant="additions text"></div><div class="controls">
+<div class="input-grid">
+ <div class="entry-panel local-entry">
+  <div class="entry-heading"><h2>✍️ Tu respuesta</h2><span class="entry-tag local-tag">Tutor local</span></div>
+  <p class="help">Escribe tu interpretación, selecciona evidencias y explica cómo apoyan tu idea.</p>
+  <label class="visually-hidden" for="reply">Tu respuesta al ejercicio</label>
+  <textarea id="reply" placeholder="Escribe con tus propias palabras..." maxlength="1500" rows="4" aria-describedby="replyHint"></textarea>
+  <p class="key-hint" id="replyHint"><kbd>Intro ↵</kbd> envía tu respuesta · <kbd>Mayús + Intro</kbd> crea otra línea</p>
+ </div>
+ <div class="ai-panel" aria-labelledby="aiTitle">
+  <div class="entry-heading"><h2 id="aiTitle">🤖 Preguntar a la IA</h2><span class="entry-tag ai-tag">Con internet</span></div>
+  <p class="help">Pregunta cómo razonar sobre la lectura. La IA te guía mediante nuevas preguntas, sin darte las respuestas.</p>
+  <label class="visually-hidden" for="aiQuestion">Pregunta libre a la IA sobre la lectura</label>
+  <textarea id="aiQuestion" maxlength="500" rows="4" placeholder="Ejemplo: ¿cómo encuentro una pista que respalde mi hipótesis?" aria-describedby="aiKeyHint aiStatus"></textarea>
+  <p class="key-hint" id="aiKeyHint"><kbd>Intro ↵</kbd> envía tu pregunta · <kbd>Mayús + Intro</kbd> crea otra línea</p>
+  <p id="aiStatus" role="status" aria-live="polite" class="help">Si no hay conexión, continuará el tutor local.</p>
+ </div>
+</div>
+<div class="buttons tools-row"><button id="hint" class="secondary">Pedir pista</button><button id="teacher" class="secondary">Consultar al docente</button><button id="reset" class="warn">Reiniciar caso</button><button id="export" class="secondary">Informe PDF</button><button id="erase" class="warn">Borrar registros</button></div>
+<p class="help privacy-notice">Tus respuestas guiadas se guardan en este navegador. Las preguntas enviadas a la IA requieren internet y pasan por Cloudflare; evita compartir datos personales. El docente conserva la evaluación y los puntos del OVA.</p>
+</div></section>
 </main><footer>Prototipo de la Evidencia 3 · Unidad 3 · API Lector 9. Los textos y casos proceden de la misión Inferencias del OVA Rutas de Lectura Crítica. La interacción es formativa y no modifica resultados oficiales.</footer><noscript><p class="no-js">Activa JavaScript para utilizar el tutor.</p></noscript>
 <script>
 'use strict';
@@ -64,7 +125,7 @@ function save(){state.updatedAt=new Date().toISOString();try{localStorage.setIte
 function log(kind,message){state.messages.push({kind,text:clean(message)});if(state.messages.length>160)state.messages=state.messages.slice(-160);save();renderChat()}
 function event(name){state.events.push({type:name,caseId:state.caseId,at:new Date().toISOString()});if(state.events.length>150)state.events=state.events.slice(-150);save()}
 function renderChat(){const el=$('chat');el.replaceChildren();for(const m of state.messages){const box=document.createElement('div');box.className='bubble '+(m.kind==='user'?'user':'agent');const lbl=document.createElement('small');lbl.textContent=m.kind==='user'?'ESTUDIANTE':'API LECTOR 9';box.append(lbl,document.createTextNode(m.text));el.appendChild(box)}el.scrollTop=el.scrollHeight;updateStatus()}
-function updateStatus(){const pct=[0,25,50,75,100][state.stage]||0;$('meterFill').style.width=pct+'%';$('status').textContent=state.stage===4?'Actividad completada: revisa tu argumento o consulta al docente.':'Avance del acompañamiento: '+pct+' %. Pistas solicitadas: '+state.hints+'.';$('send').disabled=state.stage===4;$('hint').disabled=state.stage===4}
+function updateStatus(){const pct=[0,25,50,75,100][state.stage]||0;$('meterFill').style.width=pct+'%';$('status').textContent=state.stage===4?'Actividad completada: revisa tu argumento o consulta al docente.':'Avance del acompañamiento: '+pct+' %. Pistas solicitadas: '+state.hints+'.';$('reply').disabled=state.stage===4;$('hint').disabled=state.stage===4}
 function welcome(){const c=CASES[state.caseId];log('agent','Hola. Revisaremos “'+c.title+'”. Para empezar, lee la pregunta y escribe tu interpretación inicial con tus propias palabras. No te daré la opción correcta del examen.')}
 function renderReading(){const c=CASES[state.caseId];$('caseSelect').value=String(state.caseId);$('question').textContent=c.question;$('textTitle').textContent=READINGS[c.t].title;const list=$('sentences');list.replaceChildren();READINGS[c.t].sentences.forEach((s,i)=>{const el=document.createElement('div');el.className='sentence'+(state.evidence===i?' selected':'');const num=document.createElement('span');num.className='num';num.textContent=String(i+1);const text=document.createElement('span');text.textContent=s;const b=document.createElement('button');b.type='button';b.textContent=state.evidence===i?'Seleccionada':'Citar';b.setAttribute('aria-label','Seleccionar oración '+(i+1)+' como evidencia');b.addEventListener('click',()=>chooseEvidence(i));el.append(num,text,b);list.appendChild(el)})}
 function chooseEvidence(i){state.evidence=i;event('evidencia_seleccionada');renderReading();if(state.stage===1){const c=CASES[state.caseId];if(c.clues.includes(i)){state.stage=2;log('agent','Has elegido la oración '+(i+1)+', que contiene una pista relacionada con la pregunta. Ahora explica por qué esa pista apoya tu hipótesis; evita limitarte a copiarla.')}else{log('agent','La oración '+(i+1)+' pertenece al texto, pero su relación con esta pregunta no resulta tan clara. Revisa la pregunta y busca una acción o expresión que la apoye mejor.')}}else if(state.stage===0){log('agent','Quedó marcada la oración '+(i+1)+'. Primero escribe tu hipótesis; después examinaremos si esta evidencia la respalda.')}else{log('agent','Cambiaste tu selección a la oración '+(i+1)+'. Examina si respalda tu interpretación antes de continuar.')}}
@@ -104,7 +165,7 @@ async function askAI(){
   setAIStatus('Sin internet: respondiendo con el tutor local.');
   localSocraticFallback();return;
  }
- askingAI=true;$('askAi').disabled=true;setAIStatus('Consultando a la IA...');
+ askingAI=true;$('aiQuestion').disabled=true;setAIStatus('Consultando a la IA...');
  const controller=new AbortController();
  const timer=setTimeout(()=>controller.abort(),12000);
  try{
@@ -123,10 +184,10 @@ async function askAI(){
    setAIStatus('IA no disponible: continúa el tutor local sin interrumpir el ejercicio.');
    localSocraticFallback();
   }
- }finally{clearTimeout(timer);askingAI=false;$('askAi').disabled=false;}
+ }finally{clearTimeout(timer);askingAI=false;$('aiQuestion').disabled=false;}
 }
 
 function exportReport(){event('impresion_solicitada');window.print()}
-(function init(){CASES.forEach((c,i)=>{const option=document.createElement('option');option.value=String(i);option.textContent=c.title;$('caseSelect').appendChild(option)});$('caseSelect').addEventListener('change',e=>switchCase(Number(e.target.value)));$('send').addEventListener('click',send);$('hint').addEventListener('click',hint);$('teacher').addEventListener('click',teacher);$('reset').addEventListener('click',resetCase);$('erase').addEventListener('click',erase);$('export').addEventListener('click',exportReport);$('askAi').addEventListener('click',askAI);$('aiQuestion').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();askAI()}});$('reply').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();send()}});renderReading();if(!state.messages.length)welcome();else renderChat()})();
+(function init(){CASES.forEach((c,i)=>{const option=document.createElement('option');option.value=String(i);option.textContent=c.title;$('caseSelect').appendChild(option)});$('caseSelect').addEventListener('change',e=>switchCase(Number(e.target.value)));$('hint').addEventListener('click',hint);$('teacher').addEventListener('click',teacher);$('reset').addEventListener('click',resetCase);$('erase').addEventListener('click',erase);$('export').addEventListener('click',exportReport);$('aiQuestion').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&e.keyCode!==229){e.preventDefault();askAI()}});$('reply').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&e.keyCode!==229){e.preventDefault();send()}});renderReading();if(!state.messages.length)welcome();else renderChat()})();
 </script>
 </body></html>
