@@ -177,4 +177,7 @@ function renderReport(){const s=score(),pct=Math.round(s.given/TOTAL*100),accura
 $('printReport').addEventListener('click',()=>window.print());$('resetAll').addEventListener('click',()=>{if(!window.confirm('¿Eliminar todos los resultados guardados en este navegador?'))return;state=blank();m2Hints=new Map();m2Chosen=new Map();persist();show('home')});
 startOVA();
 </script>
+
+<!-- Acceso experimental al API Lector 9; desarrollo separado de las evaluaciones oficiales. -->
+<a href="modulos/agente/api-lector9.html" target="_blank" rel="noopener noreferrer" aria-label="Abrir API Lector 9, tutor de inferencias en una nueva pestaña" style="position:fixed;z-index:999;right:16px;bottom:16px;display:inline-flex;align-items:center;max-width:calc(100vw - 32px);padding:11px 15px;border-radius:999px;background:#14664e;color:#fff;text-decoration:none;font:700 13px/1.25 system-ui,sans-serif;box-shadow:0 8px 23px #153e3860">🧠 Ayuda para inferencias · API Lector 9</a>
 </body></html>
