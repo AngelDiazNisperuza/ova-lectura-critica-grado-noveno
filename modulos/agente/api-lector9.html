@@ -280,7 +280,7 @@ async function bootstrapTutorProgress(){
   $('syncTutorState').textContent='Tutoría asociada a tu cuenta. Los cambios se sincronizarán con Cloudflare.';
   // Los historiales previos no identifican al estudiante: importar únicamente tras su consentimiento.
   const oldProgress=CASES.some((_,i)=>(tutorRecord(LEGACY_KEY,i)?.stage||0)>0);
-  if(oldProgress&&!remote.size){
+  if(oldProgress){
    $('importTutor').hidden=false;
    $('importTutor').style.display='inline-block';
   }
