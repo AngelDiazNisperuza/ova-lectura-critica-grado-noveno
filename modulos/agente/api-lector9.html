@@ -52,6 +52,69 @@ button.warn{background:#fff9d8;color:#735c16;border-color:#efcf68}
 @media(max-width:520px){.controls{padding:14px 12px}.entry-panel,.ai-panel{padding:13px}.entry-heading h2{font-size:16px}}
 [hidden]{display:none!important}
 @media print{.controls{display:none!important}.top{background:white!important;color:black;border-color:#000}.pane header{border-color:#888}}
+
+/* Nordic Precision + identidad institucional: tinta oscura, azul, verde y amarillo. */
+:root{
+ color-scheme:dark;--school-blue:#4e9fce;--school-green:#9cc75b;--school-yellow:#f0d14b;
+ --green:#6ba85e;--ink:#e8ecee;--muted:#a6b1b8;--line:#353e42;--sun:#f0d14b;
+ font-family:Outfit,"Segoe UI",system-ui,sans-serif;color:#e8ecee;background:#0b0e10;
+}
+html,body{background:#0b0e10;color:#e8ecee}
+button,textarea,select{font-family:Outfit,"Segoe UI",system-ui,sans-serif;border-radius:0!important}
+button:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #f0d14b;outline-offset:3px}
+.top{background:#111619;border-bottom:2px solid #f0d14b;box-shadow:none}
+.top .logo{background:#f0d14b;color:#0a1013;border:1px solid #cba730;border-radius:0}
+.top small{color:#a7b6bf}.top .pill{background:#213520;color:#c5e6a7;border:1px solid #6c9651}
+.layout{max-width:1540px}
+.pane{border:1px solid #364044;background:#161b1e;border-radius:0;box-shadow:none}
+.pane header{border-top:2px solid #9cc75b;border-bottom:1px solid #343e40}
+.pane:nth-child(2) header{border-top-color:#4e9fce}
+.pane h1,.pane h2,.pane h3{font-family:Outfit,system-ui,sans-serif;color:#f0f4f5;font-weight:450;letter-spacing:.02em}
+.pane header p,.help,footer,.status,.steps{color:#aab5b8}
+select{background:#11171a;border:1px solid #4b575b;color:#e6ebeb}
+#question{background:#282817;border-left:3px solid #f0d14b;color:#f0e3a1;border-radius:0}
+.sentence{background:#151b1d;border:1px solid #343d3e;border-radius:0;color:#e3e8e9}
+.sentence .num{background:#294027;border-radius:0;color:#cee8bc}
+.sentence button{background:transparent;border:1px solid #60856f;color:#b3dfc0;border-radius:0}
+.sentence.selected{background:#1e342a;border-color:#9cc75b}
+.chatlog{background:#101517;gap:12px}
+.bubble{border-radius:0;box-shadow:none}
+.bubble.agent{background:#1b2428;border:1px solid #374951;border-left:3px solid #9cc75b;color:#e1e7e9}
+.bubble.user{background:#214e69;border:1px solid #4e9fce;border-right:3px solid #f0d14b;color:white}
+.bubble small{letter-spacing:.12em;font-family:"Space Grotesk",system-ui,sans-serif}
+.controls{background:#111719;border-top:1px solid #39464b}
+.local-entry{background:#15232a;border:1px solid #354e5b;border-top:3px solid #4e9fce;border-radius:0}
+.ai-panel{background:#1b261a;border:1px solid #405837;border-top:3px solid #9cc75b;border-radius:0}
+.entry-heading h2{color:#a0d9f0}.ai-panel .entry-heading h2{color:#c5e6a2}
+.local-tag{background:#1e455a;color:#ceeafb}.ai-tag{background:#2a3e23;color:#d0edb5}
+.entry-tag{border-radius:0;text-transform:uppercase;letter-spacing:.08em}
+.controls textarea,.ai-panel textarea{background:#0d1215;border:1px solid #4b5d63;color:#f1f5f5;border-radius:0}
+.controls textarea::placeholder,.ai-panel textarea::placeholder{color:#929eaa}
+.key-hint{color:#a4b1ba}
+kbd{background:#222b2e;color:#e1e8ea;border:1px solid #516067;border-bottom:2px solid #697a7e;border-radius:0}
+.meter{background:#343c3d;border-radius:0}
+.meter span{background:linear-gradient(90deg,#4e9fce,#9cc75b,#f0d14b)}
+button.primary{background:#f0d14b;border:1px solid #f0d14b;color:#152025}
+button.secondary{background:transparent;border:1px solid #7291a0;color:#b9e2f4}
+button.warn{background:#282619;border:1px solid #a39444;color:#eada9b}
+.tools-row{border-top:1px solid #46514c}
+.privacy-notice{border-color:#f0d14b}
+footer{color:#99a8ad}
+@media(max-width:780px){.input-grid{grid-template-columns:1fr}}
+@media print{body,.pane,.chatlog{background:white;color:black}.bubble.agent,.bubble.user{background:white;color:black;border-color:#888}}
+
+
+/* Nordic Insanjo Claro · diseño de lectura institucional */
+:root{color-scheme:light;--school-blue:#3189bc;--school-green:#78a943;--school-yellow:#e8c53d;--green:#488746;--ink:#1e3646;--muted:#61727c;--line:#d3e1e7;--sun:#e8c53d;color:#1e3646;background:#f6f9fb}
+html,body{background:#f6f9fb;color:#1e3646}.top{background:#fff;border-bottom:3px solid #e8c53d;color:#214f6a}.top .logo{background:#ffe770;color:#1d4860;border-color:#d9bd3f}.top small{color:#4b7180}.top .pill{background:#f0f8e8;color:#43772c;border-color:#a8c78e}
+.pane{background:#fff;border-color:#cddde5}.pane header{border-bottom:1px solid #d3e1e7}.pane h1,.pane h2,.pane h3{color:#1e465b}.pane header p,.help,footer,.status,.steps{color:#627682}
+select{background:#fff;color:#29475a;border-color:#bad0db}#question{background:#fff8dc;color:#66541c;border-left-color:#e2bc27}
+.sentence{background:#fff;color:#264150;border-color:#d8e5e9}.sentence .num{background:#e9f5e1;color:#417230}.sentence button{color:#2b7546;border-color:#a5cab0}.sentence.selected{background:#eff8e9;border-color:#81b052}
+.chatlog{background:#f4f8fa}.bubble.agent{background:#fff;color:#28475a;border-color:#cddfe7;border-left-color:#6fa33e}.bubble.user{background:#2b7aa4;color:#fff;border-color:#2671a0;border-right-color:#f0d14b}
+.controls{background:#fbfdfe;border-color:#d3e1e7}.local-entry{background:#f0f7fc;border-color:#c3dce9;border-top-color:#3189bc}.ai-panel{background:#f1f9eb;border-color:#c9dfb4;border-top-color:#78a943}
+.entry-heading h2{color:#246c91}.ai-panel .entry-heading h2{color:#4c7931}.local-tag{background:#dceef8;color:#265f80}.ai-tag{background:#e4f2d8;color:#3a7229}
+.controls textarea,.ai-panel textarea{background:#fff;color:#2d4555;border-color:#b9d0dc}.controls textarea::placeholder,.ai-panel textarea::placeholder{color:#778995}.key-hint{color:#617986}kbd{background:#fff;color:#415e6d;border-color:#bccfd6}.meter{background:#e8eff1}
+button.primary{background:#2c779f;border-color:#2c779f;color:#fff}button.secondary{background:#fff;border-color:#8fbad0;color:#255d7e}button.warn{background:#fff9e7;border-color:#dcc377;color:#795e17}.tools-row{border-color:#d8e5e9}.privacy-notice{border-color:#dfbb30}footer{color:#657987}
 </style>
 </head>
 <body>
