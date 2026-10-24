@@ -199,7 +199,7 @@ startOVA();
     // Cloudflare entrega una URL real: soporta actualizar, favoritos y sesiones.
     // Al abrir una copia sin conexión, conserva el tutor HTML autocontenido.
     if (location.pathname === '/ova' && navigator.onLine !== false) {
-      const url = new URL('/agente', location.origin).href;
+      const url = location.origin + '/agente';
       const permanentTab = window.open(url, '_blank');
       if (!permanentTab) {
         status.textContent = 'El navegador bloqueó la nueva pestaña. Autoriza las ventanas emergentes y vuelve a intentarlo.';
