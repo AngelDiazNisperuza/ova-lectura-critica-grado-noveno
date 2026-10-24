@@ -17,9 +17,16 @@ Descarga `modulos/agente/api-lector9.html` y ábrelo en un navegador compatible.
 
 **Este prototipo es un tutor guiado por reglas locales, no una IA generativa ni un modelo de lenguaje ejecutado sin conexión**. La validación del contenido escrito es orientativa, mediante reglas simples, y necesita supervisión del docente. No emite nota, no modifica los 100 puntos del OVA, no envía datos a D1 y no administra cuentas.
 
-## Integración controlada
+## Integración controlada en el OVA y Cloudflare
 
-La rama `feature/api-lector9-unidad3` añade un enlace reversible en el `index.html` que abre el módulo en otra pestaña. Se conserva intacta la ruta de evaluación original. **La rama no está desplegada automáticamente en Cloudflare**; no fusionar sin verificar primero que la ruta del módulo está publicada y funciona tanto en Pages como en el dominio usado por Cloudflare, de lo contrario el enlace podría llevar a una página inexistente. El backend de Cloudflare sigue fuera de esta rama.
+El OVA incluye dentro de la misión **Inferencias** un botón **«Abrir tutor de inferencias»**. En esta versión el HTML completo del tutor está incorporado en `index.html`, de modo que al abrirlo en otra pestaña no solicita a Cloudflare un archivo adicional inexistente. Es un diseño reversible que evita cambiar la autenticación o las tablas D1.
+
+- En **Cloudflare**, el estudiante debe iniciar sesión de manera habitual y abrir la ruta autenticada `/ova`; se aplica la política de seguridad de esa página.
+- En una copia local, el tutor funciona sin conexión tras abrir `index.html`.
+- La calificación oficial del OVA continúa independiente del historial local del tutor.
+- El programa `modulos/agente/api-lector9.html` se conserva como copia independiente para pruebas y auditoría.
+- Si un navegador bloquea nuevas pestañas, es necesario habilitar ventanas emergentes para el sitio educativo.
+- No se ha integrado un servicio generativo, ni se han verificado todavía las credenciales o la publicación real del Worker.
 
 ## Pruebas
 
