@@ -204,7 +204,14 @@ startOVA();
     }
     try {
       popup.document.open();
-      popup.document.write(AGENT_DOCUMENT);
+      // La pestaña about:blank puede no resolver rutas relativas de igual manera en todos los navegadores.
+      // Insertar la ruta absoluta del mismo dominio evita fallos de conexión con Cloudflare.
+      const apiEndpoint = (location.protocol === 'https:' || location.protocol === 'http:')
+        ? location.origin + '/api/agent' : '/api/agent';
+      const agentPage = AGENT_DOCUMENT.replace(
+        "fetch('/api/agent',{", "fetch(" + JSON.stringify(apiEndpoint) + ",{"
+      );
+      popup.document.write(agentPage);
       popup.document.close();
       popup.opener = null;
       status.textContent = 'El tutor se abrió en otra pestaña. Puedes volver al OVA en cualquier momento.';
