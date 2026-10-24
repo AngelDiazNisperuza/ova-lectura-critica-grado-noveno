@@ -50,6 +50,7 @@ button.warn{background:#fff9d8;color:#735c16;border-color:#efcf68}
 @media(min-width:1060px){.layout{grid-template-columns:minmax(290px,.85fr) minmax(520px,1.15fr)}}
 @media(max-width:780px){.input-grid{grid-template-columns:1fr}.entry-panel .help{min-height:0}.controls textarea,.ai-panel textarea{height:95px;min-height:95px}}
 @media(max-width:520px){.controls{padding:14px 12px}.entry-panel,.ai-panel{padding:13px}.entry-heading h2{font-size:16px}}
+[hidden]{display:none!important}
 @media print{.controls{display:none!important}.top{background:white!important;color:black;border-color:#000}.pane header{border-color:#888}}
 </style>
 </head>
@@ -75,7 +76,8 @@ button.warn{background:#fff9d8;color:#735c16;border-color:#efcf68}
   <p id="aiStatus" role="status" aria-live="polite" class="help">Si no hay conexión, continuará el tutor local.</p>
  </div>
 </div>
-<div class="buttons tools-row"><button id="hint" class="secondary">Pedir pista</button><button id="teacher" class="secondary">Consultar al docente</button><button id="reset" class="warn">Reiniciar caso</button><button id="export" class="secondary">Informe PDF</button><button id="erase" class="warn">Borrar registros</button></div>
+<div class="buttons tools-row"><button id="importTutor" class="secondary" type="button" hidden>Importar mis tutorías anteriores</button><button id="hint" class="secondary">Pedir pista</button><button id="teacher" class="secondary">Consultar al docente</button><button id="reset" class="warn">Reiniciar caso</button><button id="export" class="secondary">Informe PDF</button><button id="erase" class="warn">Borrar registros</button></div>
+<p class="help" id="syncTutorState" role="status" aria-live="polite">El avance de la tutoría se guarda localmente; si inicias sesión se sincronizará con tu cuenta.</p>
 <p class="help privacy-notice">Tus respuestas guiadas se guardan en este navegador. Las preguntas enviadas a la IA requieren internet y pasan por Cloudflare; evita compartir datos personales. El docente conserva la evaluación y los puntos del OVA.</p>
 </div></section>
 </main><footer>Prototipo de la Evidencia 3 · Unidad 3 · API Lector 9. Los textos y casos proceden de la misión Inferencias del OVA Rutas de Lectura Crítica. La interacción es formativa y no modifica resultados oficiales.</footer><noscript><p class="no-js">Activa JavaScript para utilizar el tutor.</p></noscript>
@@ -107,7 +109,15 @@ const CASES=[
 {t:1,kind:'Causal',title:'Caso 3 · ¿Por qué una caja se secó antes?',question:'¿Qué explicación causal es razonable a partir del contraste entre las cajas?',clues:[0,1,2,5]},
 {t:1,kind:'Léxica',title:'Caso 4 · ¿Qué significa «paraguas»?',question:'¿Qué sentido adquiere «paraguas» dentro de la explicación del artículo?',clues:[4,5]}
 ];
-const KEY='api-lector9-unidad3-local-v2';
+let KEY='api-lector9-unidad3-local-v2';
+const LEGACY_KEY=KEY;
+// Se reemplaza al identificar al estudiante; ningún resultado anterior se atribuye automáticamente.
+const TUTOR_PROGRESS_ENDPOINT='/api/tutor-progress';
+let tutorConnected=false;
+let tutorSyncing=false;
+let tutorTimer=null;
+const pendingCases=new Map();
+const sentCases=new Map();
 const $=(id)=>document.getElementById(id);
 const clean=(s)=>String(s).trim().replace(/\s+/g,' ').slice(0,1500);
 function blank(){return {version:1,caseId:0,stage:0,evidence:null,hints:0,answers:{},messages:[],events:[],updatedAt:null}}
@@ -121,7 +131,12 @@ function readSaved(id){
  }catch(e){const fresh=blank();if(Number.isInteger(id)&&id>=0&&id<CASES.length)fresh.caseId=id;return fresh}
 }
 let state=readSaved();
-function save(){state.updatedAt=new Date().toISOString();try{localStorage.setItem(KEY+'-case-'+state.caseId,JSON.stringify(state));localStorage.setItem(KEY+'-active',String(state.caseId))}catch(e){$('status').textContent='No fue posible guardar en este navegador; las respuestas permanecerán mientras esta pestaña siga abierta.'}}
+function save(){state.updatedAt=new Date().toISOString();try{localStorage.setItem(KEY+'-case-'+state.caseId,JSON.stringify(state));localStorage.setItem(KEY+'-active',String(state.caseId))}catch(e){$('status').textContent='No fue posible guardar en este navegador; las respuestas permanecerán mientras esta pestaña siga abierta.'}
+ if(tutorConnected && sentCases.get(state.caseId)!==state.stage){
+  pendingCases.set(state.caseId,state.stage);
+  scheduleTutorSync();
+ }
+}
 function log(kind,message){state.messages.push({kind,text:clean(message)});if(state.messages.length>160)state.messages=state.messages.slice(-160);save();renderChat()}
 function event(name){state.events.push({type:name,caseId:state.caseId,at:new Date().toISOString()});if(state.events.length>150)state.events=state.events.slice(-150);save()}
 function renderChat(){const el=$('chat');el.replaceChildren();for(const m of state.messages){const box=document.createElement('div');box.className='bubble '+(m.kind==='user'?'user':'agent');const lbl=document.createElement('small');lbl.textContent=m.kind==='user'?'ESTUDIANTE':'API LECTOR 9';box.append(lbl,document.createTextNode(m.text));el.appendChild(box)}el.scrollTop=el.scrollHeight;updateStatus()}
@@ -136,7 +151,7 @@ function hint(){state.hints++;event('pista');const c=CASES[state.caseId];let msg
 function teacher(){event('consulta_docente');log('agent','Es adecuado consultar al docente si hay varias interpretaciones posibles, si una pista resulta ambigua o si necesitas una valoración de tu argumento. Presenta tu hipótesis, la oración elegida y tu explicación.')} 
 function switchCase(id){const ok=Number.isInteger(id)&&id>=0&&id<CASES.length;if(!ok)return;state=readSaved(id);save();renderReading();renderChat();if(!state.messages.length)welcome();$('reply').value='';event('cambio_caso')}
 function resetCase(){if(!confirm('¿Reiniciar las respuestas del caso actual?'))return;const id=state.caseId;state=blank();state.caseId=id;save();renderReading();renderChat();welcome();event('reinicio_caso')}
-function erase(){if(!confirm('¿Borrar todas las respuestas guardadas localmente?'))return;try{for(let i=0;i<CASES.length;i++)localStorage.removeItem(KEY+'-case-'+i);localStorage.removeItem(KEY+'-active')}catch(e){}state=blank();save();renderReading();renderChat();welcome();event('borrado')}
+function erase(){if(!confirm('¿Borrar todas las respuestas guardadas localmente?'))return;try{for(let i=0;i<CASES.length;i++)localStorage.removeItem(KEY+'-case-'+i);localStorage.removeItem(KEY+'-active')}catch(e){}state=blank();save();if(tutorConnected){for(let i=0;i<CASES.length;i++)pendingCases.set(i,0);scheduleTutorSync()}renderReading();renderChat();welcome();event('borrado')}
 
 /* Preguntas libres opcionales: si la conexión o la IA falla, no altera la tutoría local. */
 let askingAI=false;
@@ -187,7 +202,117 @@ async function askAI(){
  }finally{clearTimeout(timer);askingAI=false;$('aiQuestion').disabled=false;}
 }
 
+
+/* Sincronización voluntaria de etapas: sin mensajes, claves ni calificaciones. */
+function validTutorStage(x){return Number.isInteger(x)&&x>=0&&x<=4}
+function tutorRecord(key,caseId){
+ try {
+  const r=JSON.parse(localStorage.getItem(key+'-case-'+caseId));
+  return r && r.version===1 && r.caseId===caseId && validTutorStage(r.stage) ? r : null;
+ } catch{return null}
+}
+function scheduleTutorSync(){
+ if(!tutorConnected||tutorTimer!==null)return;
+ tutorTimer=setTimeout(()=>{tutorTimer=null;syncTutorProgress()},750);
+}
+async function syncTutorProgress(){
+ if(!tutorConnected||tutorSyncing||pendingCases.size===0||navigator.onLine===false)return;
+ tutorSyncing=true;
+ try {
+  for(const [caseId,stage] of [...pendingCases]){
+   if(!tutorConnected||navigator.onLine===false)break;
+   if(pendingCases.get(caseId)!==stage)continue;
+   const res=await fetch(TUTOR_PROGRESS_ENDPOINT,{
+    method:'POST',credentials:'same-origin',cache:'no-store',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({caseId,stage})
+   });
+   if(!res.ok){
+    if(res.status===401||res.status===403)tutorConnected=false;
+    break;
+   }
+   if(pendingCases.get(caseId)===stage)pendingCases.delete(caseId);
+   sentCases.set(caseId,stage);
+  }
+ }catch{
+  // Guardado local intacto; se reintentará tras recuperar conexión.
+ }finally{
+  tutorSyncing=false;
+  if(pendingCases.size===0 && tutorConnected) $('syncTutorState').textContent='Avance de tutoría sincronizado con tu cuenta.';
+  else $('syncTutorState').textContent='Avance guardado en este navegador; pendiente de sincronizar.';
+ }
+}
+async function bootstrapTutorProgress(){
+ if(typeof navigator!=='undefined'&&navigator.onLine===false)return;
+ let controller=null,tm=null;
+ try {
+  controller=new AbortController();
+  tm=setTimeout(()=>controller.abort(),4500);
+  const response=await fetch(TUTOR_PROGRESS_ENDPOINT,{
+   method:'GET',credentials:'same-origin',cache:'no-store',signal:controller.signal
+  });
+  if(!response.ok)return;
+  const result=await response.json();
+  const id=result?.studentId;
+  if(!Number.isSafeInteger(id)||id<1||!Array.isArray(result.cases))return;
+  KEY=LEGACY_KEY+'-student-'+id;
+  tutorConnected=true;
+  const remote=new Map();
+  for(const item of result.cases){
+   if(Number.isInteger(item.caseId)&&item.caseId>=0&&item.caseId<CASES.length&&validTutorStage(item.stage)){
+     remote.set(item.caseId,item.stage);
+     sentCases.set(item.caseId,item.stage);
+     if(!tutorRecord(KEY,item.caseId)){
+       const saved=blank();saved.caseId=item.caseId;saved.stage=item.stage;
+       saved.messages=[{kind:'agent',text:'Avance de esta tutoría recuperado desde tu cuenta. Puedes continuar o reiniciar el caso.'}];
+       saved.updatedAt=item.updatedAt||new Date().toISOString();
+       localStorage.setItem(KEY+'-case-'+item.caseId,JSON.stringify(saved));
+     }
+   }
+  }
+  state=readSaved();
+  for(let i=0;i<CASES.length;i++){
+   const record=tutorRecord(KEY,i);
+   if(record && record.stage!==remote.get(i)){
+     pendingCases.set(i,record.stage);
+   }
+  }
+  $('syncTutorState').textContent='Tutoría asociada a tu cuenta. Los cambios se sincronizarán con Cloudflare.';
+  // Los historiales previos no identifican al estudiante: importar únicamente tras su consentimiento.
+  const oldProgress=CASES.some((_,i)=>(tutorRecord(LEGACY_KEY,i)?.stage||0)>0);
+  if(oldProgress){
+   $('importTutor').hidden=false;
+   $('importTutor').style.display='inline-block';
+  }
+  if(pendingCases.size>0)scheduleTutorSync();
+ }catch{
+  $('syncTutorState').textContent='Tutoría guardada localmente; podrás continuar sin conexión.';
+ }finally{if(tm!==null)clearTimeout(tm)}
+}
+function importPreviousTutorias(){
+ if(!tutorConnected)return;
+ if(!confirm('Importar el avance antiguo guardado en ESTE navegador a la cuenta de estudiante actual? Hazlo únicamente si tú realizaste esas tutorías.'))return;
+ let imports=0;
+ for(let i=0;i<CASES.length;i++){
+  const old=tutorRecord(LEGACY_KEY,i);
+  if(!old||old.stage===0)continue;
+  const prior=tutorRecord(KEY,i);
+  if(prior && prior.stage>=old.stage)continue;
+  localStorage.setItem(KEY+'-case-'+i,JSON.stringify(old));
+  pendingCases.set(i,old.stage);
+  imports++;
+ }
+ if(imports){
+  const active=state.caseId;
+  state=readSaved(active);
+  renderReading();renderChat();scheduleTutorSync();
+  $('syncTutorState').textContent='Avances anteriores importados; sincronizando con tu cuenta...';
+ }
+ $('importTutor').hidden=true;
+ $('importTutor').style.display='none';
+}
+
 function exportReport(){event('impresion_solicitada');window.print()}
-(function init(){CASES.forEach((c,i)=>{const option=document.createElement('option');option.value=String(i);option.textContent=c.title;$('caseSelect').appendChild(option)});$('caseSelect').addEventListener('change',e=>switchCase(Number(e.target.value)));$('hint').addEventListener('click',hint);$('teacher').addEventListener('click',teacher);$('reset').addEventListener('click',resetCase);$('erase').addEventListener('click',erase);$('export').addEventListener('click',exportReport);$('aiQuestion').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&e.keyCode!==229){e.preventDefault();askAI()}});$('reply').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&e.keyCode!==229){e.preventDefault();send()}});renderReading();if(!state.messages.length)welcome();else renderChat()})();
+(async function init(){CASES.forEach((c,i)=>{const option=document.createElement('option');option.value=String(i);option.textContent=c.title;$('caseSelect').appendChild(option)});$('caseSelect').addEventListener('change',e=>switchCase(Number(e.target.value)));$('hint').addEventListener('click',hint);$('teacher').addEventListener('click',teacher);$('reset').addEventListener('click',resetCase);$('erase').addEventListener('click',erase);$('importTutor').addEventListener('click',importPreviousTutorias);window.addEventListener('online',()=>{if(tutorConnected){for(let i=0;i<CASES.length;i++){const r=tutorRecord(KEY,i);if(r&&sentCases.get(i)!==r.stage)pendingCases.set(i,r.stage)}syncTutorProgress();}});$('export').addEventListener('click',exportReport);$('aiQuestion').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&e.keyCode!==229){e.preventDefault();askAI()}});$('reply').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&e.keyCode!==229){e.preventDefault();send()}});await bootstrapTutorProgress();renderReading();if(!state.messages.length)welcome();else renderChat()})();
 </script>
 </body></html>

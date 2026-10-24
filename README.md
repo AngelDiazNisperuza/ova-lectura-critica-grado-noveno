@@ -32,5 +32,9 @@ OVA interactivo de Lengua Castellana para la **Institución Educativa San José 
 
 El tutor de la Misión 2 incorpora un cuadro de consulta libre a **Cloudflare Workers AI**. En el OVA descargado y si falla la red o el servicio, las actividades y la mediación socrática local permanecen disponibles. La IA se utiliza únicamente al conectarse al Worker con el binding de Workers AI habilitado; este cambio no está incluido automáticamente en GitHub. Véanse [instrucciones de activación](./cloudflare/ACTIVAR_IA_LECTOR9.md). Las respuestas generativas son preguntas orientadoras, sin puntuación ni acceso a las respuestas oficiales.
 
+## Seguimiento independiente de API Lector 9
+
+Las cuatro tutorías socráticas pueden registrarse por estudiante en Cloudflare D1, sin modificar los puntos ni las actividades oficiales. El panel mostrará los casos realizados y su avance en otra columna **después de desplegar el Worker actualizado**. Las tutorías antiguas de este navegador requieren importación voluntaria. Véase [guía de seguimiento](./cloudflare/SEGUIMIENTO_TUTORIAS_API_LECTOR9.md).
+
 ## Transparencia
 Los textos argumentativos contienen ejemplos ficticios con fines didácticos. Los intentos de prueba no equivalen a resultados académicos obtenidos con estudiantes. El OVA contiene un tutor local por reglas y una integración opcional con un modelo de IA generativa en Cloudflare y no debe confundirse con el bot desconectado previsto en la tesis. En la versión local no se necesita servidor. En la ruta autenticada de Cloudflare, el sistema **sí transmite y almacena el progreso evaluable** asociado a la cuenta de estudiante; el diálogo del tutor se mantiene separado en el almacenamiento local del navegador. La operación real del Worker y sus políticas de conservación deben confirmarse en Cloudflare.
