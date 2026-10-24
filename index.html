@@ -196,7 +196,20 @@ startOVA();
   const status = document.getElementById('apiLector9Status');
   if(!launch) return;
   launch.addEventListener('click', () => {
-    // Abrir durante el gesto del estudiante evita el bloqueo de ventanas emergentes.
+    // Cloudflare entrega una URL real: soporta actualizar, favoritos y sesiones.
+    // Al abrir una copia sin conexión, conserva el tutor HTML autocontenido.
+    if (location.pathname === '/ova' && navigator.onLine !== false) {
+      const url = new URL('/agente', location.origin).href;
+      const permanentTab = window.open(url, '_blank');
+      if (!permanentTab) {
+        status.textContent = 'El navegador bloqueó la nueva pestaña. Autoriza las ventanas emergentes y vuelve a intentarlo.';
+        return;
+      }
+      try { permanentTab.opener = null; } catch (_) {}
+      status.textContent = 'El tutor se abrió en una dirección permanente: /agente. Puedes actualizar su pestaña.';
+      return;
+    }
+    // Modo sin conexión o copia HTML local: usa el agente incrustado.
     const popup = window.open('', '_blank');
     if (!popup) {
       status.textContent = 'El navegador bloqueó la nueva pestaña. Autoriza ventanas emergentes para este OVA y vuelve a pulsar el botón.';
