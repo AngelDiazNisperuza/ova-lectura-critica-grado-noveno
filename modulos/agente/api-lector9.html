@@ -52,6 +52,57 @@ button.warn{background:#fff9d8;color:#735c16;border-color:#efcf68}
 @media(max-width:520px){.controls{padding:14px 12px}.entry-panel,.ai-panel{padding:13px}.entry-heading h2{font-size:16px}}
 [hidden]{display:none!important}
 @media print{.controls{display:none!important}.top{background:white!important;color:black;border-color:#000}.pane header{border-color:#888}}
+
+/* Nordic Precision + identidad institucional: tinta oscura, azul, verde y amarillo. */
+:root{
+ color-scheme:dark;--school-blue:#4e9fce;--school-green:#9cc75b;--school-yellow:#f0d14b;
+ --green:#6ba85e;--ink:#e8ecee;--muted:#a6b1b8;--line:#353e42;--sun:#f0d14b;
+ font-family:Outfit,"Segoe UI",system-ui,sans-serif;color:#e8ecee;background:#0b0e10;
+}
+html,body{background:#0b0e10;color:#e8ecee}
+button,textarea,select{font-family:Outfit,"Segoe UI",system-ui,sans-serif;border-radius:0!important}
+button:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #f0d14b;outline-offset:3px}
+.top{background:#111619;border-bottom:2px solid #f0d14b;box-shadow:none}
+.top .logo{background:#f0d14b;color:#0a1013;border:1px solid #cba730;border-radius:0}
+.top small{color:#a7b6bf}.top .pill{background:#213520;color:#c5e6a7;border:1px solid #6c9651}
+.layout{max-width:1540px}
+.pane{border:1px solid #364044;background:#161b1e;border-radius:0;box-shadow:none}
+.pane header{border-top:2px solid #9cc75b;border-bottom:1px solid #343e40}
+.pane:nth-child(2) header{border-top-color:#4e9fce}
+.pane h1,.pane h2,.pane h3{font-family:Outfit,system-ui,sans-serif;color:#f0f4f5;font-weight:450;letter-spacing:.02em}
+.pane header p,.help,footer,.status,.steps{color:#aab5b8}
+select{background:#11171a;border:1px solid #4b575b;color:#e6ebeb}
+#question{background:#282817;border-left:3px solid #f0d14b;color:#f0e3a1;border-radius:0}
+.sentence{background:#151b1d;border:1px solid #343d3e;border-radius:0;color:#e3e8e9}
+.sentence .num{background:#294027;border-radius:0;color:#cee8bc}
+.sentence button{background:transparent;border:1px solid #60856f;color:#b3dfc0;border-radius:0}
+.sentence.selected{background:#1e342a;border-color:#9cc75b}
+.chatlog{background:#101517;gap:12px}
+.bubble{border-radius:0;box-shadow:none}
+.bubble.agent{background:#1b2428;border:1px solid #374951;border-left:3px solid #9cc75b;color:#e1e7e9}
+.bubble.user{background:#214e69;border:1px solid #4e9fce;border-right:3px solid #f0d14b;color:white}
+.bubble small{letter-spacing:.12em;font-family:"Space Grotesk",system-ui,sans-serif}
+.controls{background:#111719;border-top:1px solid #39464b}
+.local-entry{background:#15232a;border:1px solid #354e5b;border-top:3px solid #4e9fce;border-radius:0}
+.ai-panel{background:#1b261a;border:1px solid #405837;border-top:3px solid #9cc75b;border-radius:0}
+.entry-heading h2{color:#a0d9f0}.ai-panel .entry-heading h2{color:#c5e6a2}
+.local-tag{background:#1e455a;color:#ceeafb}.ai-tag{background:#2a3e23;color:#d0edb5}
+.entry-tag{border-radius:0;text-transform:uppercase;letter-spacing:.08em}
+.controls textarea,.ai-panel textarea{background:#0d1215;border:1px solid #4b5d63;color:#f1f5f5;border-radius:0}
+.controls textarea::placeholder,.ai-panel textarea::placeholder{color:#929eaa}
+.key-hint{color:#a4b1ba}
+kbd{background:#222b2e;color:#e1e8ea;border:1px solid #516067;border-bottom:2px solid #697a7e;border-radius:0}
+.meter{background:#343c3d;border-radius:0}
+.meter span{background:linear-gradient(90deg,#4e9fce,#9cc75b,#f0d14b)}
+button.primary{background:#f0d14b;border:1px solid #f0d14b;color:#152025}
+button.secondary{background:transparent;border:1px solid #7291a0;color:#b9e2f4}
+button.warn{background:#282619;border:1px solid #a39444;color:#eada9b}
+.tools-row{border-top:1px solid #46514c}
+.privacy-notice{border-color:#f0d14b}
+footer{color:#99a8ad}
+@media(max-width:780px){.input-grid{grid-template-columns:1fr}}
+@media print{body,.pane,.chatlog{background:white;color:black}.bubble.agent,.bubble.user{background:white;color:black;border-color:#888}}
+
 </style>
 </head>
 <body>
