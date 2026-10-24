@@ -196,47 +196,57 @@ startOVA();
   const status = document.getElementById('apiLector9Status');
   if(!launch) return;
   launch.addEventListener('click', () => {
-    // Cloudflare entrega una URL real: soporta actualizar, favoritos y sesiones.
-    // Al abrir una copia sin conexión, conserva el tutor HTML autocontenido.
-    if (location.pathname === '/ova' && navigator.onLine !== false) {
-      const url = location.origin + '/agente';
-      const permanentTab = window.open(url, '_blank');
-      if (!permanentTab) {
-        status.textContent = 'El navegador bloqueó la nueva pestaña. Autoriza las ventanas emergentes y vuelve a intentarlo.';
-        return;
-      }
-      try { permanentTab.opener = null; } catch (_) {}
-      status.textContent = 'El tutor se abrió en una dirección permanente: /agente. Puedes actualizar su pestaña.';
-      return;
-    }
-    // Modo sin conexión o copia HTML local: usa el agente incrustado.
+    // Abrir la pestaña durante el clic para evitar el bloqueo de ventanas emergentes.
     const popup = window.open('', '_blank');
     if (!popup) {
-      status.textContent = 'El navegador bloqueó la nueva pestaña. Autoriza ventanas emergentes para este OVA y vuelve a pulsar el botón.';
+      status.textContent = 'Autoriza las ventanas emergentes para abrir el tutor y vuelve a intentarlo.';
       return;
     }
-    try {
-      popup.document.open();
-      // La pestaña about:blank puede no resolver rutas relativas de igual manera en todos los navegadores.
-      // Insertar la ruta absoluta del mismo dominio evita fallos de conexión con Cloudflare.
-      const apiEndpoint = (location.protocol === 'https:' || location.protocol === 'http:')
-        ? location.origin + '/api/agent' : '/api/agent';
-      const progressEndpoint = (location.protocol === 'https:' || location.protocol === 'http:')
-        ? location.origin + '/api/tutor-progress' : '/api/tutor-progress';
-      const agentPage = AGENT_DOCUMENT.replace(
-        "fetch('/api/agent',{", "fetch(" + JSON.stringify(apiEndpoint) + ",{"
-      ).replace(
-        "const TUTOR_PROGRESS_ENDPOINT='/api/tutor-progress';",
-        "const TUTOR_PROGRESS_ENDPOINT=" + JSON.stringify(progressEndpoint) + ";"
-      );
-      popup.document.write(agentPage);
-      popup.document.close();
-      popup.opener = null;
-      status.textContent = 'El tutor se abrió en otra pestaña. Puedes volver al OVA en cualquier momento.';
-    } catch(e) {
-      try { popup.close(); } catch (_) {}
-      status.textContent = 'No fue posible abrir el tutor. Consulta con tu docente e inténtalo nuevamente.';
+    const showLocal = (message) => {
+      try {
+        const apiEndpoint = (location.protocol === 'https:' || location.protocol === 'http:')
+          ? location.origin + '/api/agent' : '/api/agent';
+        const progressEndpoint = (location.protocol === 'https:' || location.protocol === 'http:')
+          ? location.origin + '/api/tutor-progress' : '/api/tutor-progress';
+        const agentPage = AGENT_DOCUMENT.replace(
+          "fetch('/api/agent',{", "fetch(" + JSON.stringify(apiEndpoint) + ",{"
+        ).replace(
+          "const TUTOR_PROGRESS_ENDPOINT='/api/tutor-progress';",
+          "const TUTOR_PROGRESS_ENDPOINT=" + JSON.stringify(progressEndpoint) + ";"
+        );
+        popup.document.open();
+        popup.document.write(agentPage);
+        popup.document.close();
+        try { popup.opener = null; } catch (_) {}
+        status.textContent = message;
+      } catch (e) {
+        try { popup.close(); } catch (_) {}
+        status.textContent = 'No se pudo abrir el tutor. Vuelve a intentarlo desde el OVA.';
+      }
+    };
+    if(location.pathname !== '/ova' || navigator.onLine === false) {
+      showLocal('Tutor local abierto. Sin conexión, esta pestaña no puede recargarse; conserva el OVA descargado.');
+      return;
     }
+    // Comprobar la ruta protegida antes de navegar; si aún no está publicada
+    // el agente anterior seguirá disponible sin romper la misión.
+    status.textContent = 'Comprobando la ruta permanente del agente...';
+    fetch('/agente', {method:'GET', credentials:'same-origin', cache:'no-store'})
+      .then(response => {
+        const finalPath = response.url ? new URL(response.url).pathname : '';
+        if(response.ok && finalPath === '/agente') {
+          popup.location.replace(location.origin + '/agente');
+          try { popup.opener = null; } catch (_) {}
+          status.textContent = 'Agente abierto en /agente. Ya puedes actualizar su pestaña y usar favoritos.';
+        } else if(finalPath === '/login') {
+          popup.location.replace(location.origin + '/login');
+          status.textContent = 'Tu sesión terminó. Inicia sesión para acceder al agente.';
+        } else {
+          showLocal('Cloudflare todavía no tiene activa la ruta /agente. Se abrió el tutor de respaldo; para poder actualizar la pestaña es necesario publicar esa ruta.');
+        }
+      }).catch(() => {
+        showLocal('No fue posible comprobar /agente. Se abrió el tutor local para que puedas continuar.');
+      });
   });
 })();
 </script>
