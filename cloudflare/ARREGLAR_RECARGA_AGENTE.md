@@ -16,7 +16,7 @@ Cuando se utiliza una copia descargada de `index.html`, o si se pierde internet 
 1. Guardar una copia del Worker actual en Cloudflare.
 2. Incorporar la ruta `GET /agente` al Worker, preservando el código de usuarios, contraseñas, consultas de IA y tutorías. Se proporciona en el archivo completo `OVA_Worker_IA_Seguimiento_Ruta_Agente.txt` elaborado a partir de la última versión compartida.
 3. Publicar primero el Worker y comprobar que `/agente` abre el tutor como estudiante, y que tras pulsar Actualizar sigue abierto.
-4. Fusionar la rama `fix/agente-ruta-permanente-cloudflare` en `main`. Hasta entonces el OVA en producción sigue abriendo el tutor anterior con `about:blank`.
+4. El enlace de la rama principal comprueba automáticamente si `/agente` está disponible. Si lo está, abre la dirección permanente; si no, conserva temporalmente el tutor incrustado y muestra un aviso en el OVA. La falta de ruta no bloquea la tutoría.
 5. Verificar que el botón «Abrir tutor de inferencias» abre `/agente`, que la IA responde, que `/api/tutor-progress` sincroniza y que las notas oficiales permanecen intactas.
 
 ## Comprobaciones realizadas
@@ -24,4 +24,4 @@ Cuando se utiliza una copia descargada de `index.html`, o si se pierde internet 
 - El botón pasa pruebas simuladas de apertura web permanente y de los dos modos de respaldo HTML.
 - No se modifican las cuentas, la puntuación, las estructuras de D1 ni el código original del agente.
 
-**El Worker de Cloudflare no se modifica por actualizar GitHub.** La ruta seguirá sin existir hasta que se publique el código de Cloudflare.
+**El Worker de Cloudflare no se modifica por actualizar GitHub.** Hasta que se publique la ruta en Cloudflare, el botón avisará que falta activarla y abrirá el tutor de respaldo en una pestaña temporal. Una vez desplegada, el botón abrirá `/agente` y se podrá recargar.
